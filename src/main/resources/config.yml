@@ -1,0 +1,45 @@
+main-menu:
+  size: 27
+  title: Main Menu
+  item1:
+    slot: 0
+    item: DIAMOND
+    name: '&bDiamond Item'
+    section: 'Section1'
+  item2:
+    slot: 1
+    item: GOLD_INGOT
+    name: '&6Gold Item'
+    section: 'Section2'
+
+sections:
+  Section1:
+    size: 18
+    title: '&aMenu1'
+    item1:
+      slot: 0
+      item: IRON_SWORD
+      name: '&bIron Sword'
+      buy-price: 10
+      sell-price: 5
+    item2:
+      slot: 1
+      item: BOW
+      name: '&6Bow'
+      buy-price: 15
+      sell-price: 8
+  Section2:
+    size: 18
+    title: '&aMenu2'
+    item1:
+      slot: 0
+      item: BREAD
+      name: '&eBread'
+      buy-price: 5
+      sell-price: 2
+    item2:
+      slot: 1
+      item: COOKED_BEEF
+      name: '&6Cooked Beef'
+      buy-price: 12
+      sell-price: 6

@@ -1,0 +1,21 @@
+name: SurvivalSystem
+version: '${project.version}'
+main: dev.subscripted.survivalsystem.Main
+api-version: '1.20'
+author: Subscripted
+description: Das Novibes.de Survival System verbindet BungeeCord Funktionen mit Bukkit Interaktionen, genauso wie andere Befehle die Nützlich sein könnten.
+website: github.com/subscripted
+commands:
+  tpa:
+  tp:
+  tpahere:
+  tphere:
+  tpaaccept:
+  tpadeny:
+  market:
+  bankui:
+  v:
+  vanish:
+  spawn:
+  setspawn:
+
