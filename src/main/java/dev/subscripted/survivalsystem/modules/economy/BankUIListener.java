@@ -3,6 +3,7 @@ package dev.subscripted.survivalsystem.modules.economy;
 import dev.subscripted.survivalsystem.Main;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
 import dev.subscripted.survivalsystem.utils.BankPaymentSerivce;
+import dev.subscripted.survivalsystem.utils.CoinFormatter;
 import dev.subscripted.survivalsystem.utils.CustomSound;
 import dev.subscripted.survivalsystem.utils.SoundLibrary;
 import lombok.AccessLevel;
@@ -90,13 +91,14 @@ public class BankUIListener implements Listener {
     private void processDeposit(Player player, int amount) {
         Coins coins = Main.getInstance().getCoins();
         UUID playerUID = player.getUniqueId();
-        int userbankcoins = coins.getBankCoins(playerUID);
+        String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
+        String coinspayedin = CoinFormatter.formatCoins(amount);
 
         if (coins.getCoins(playerUID) >= amount) {
             coins.removeCoins(playerUID, amount);
             coins.depositToBank(playerUID, amount);
-            player.sendMessage(Main.getInstance().getPrefix() + "§aDu hast erfolgreich " + amount + "€ auf dein Bankkonto eingezahlt.");
-            player.sendMessage(Main.getInstance().getPrefix() + "§7Dein Kontostand beträgt nun §e" + userbankcoins + "€");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast erfolgreich §e" + coinspayedin + "€ §7auf dein Bankkonto eingezahlt.");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Dein Kontostand beträgt nun §e" + UserBankCoins + "€");
             library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
         } else {
             player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Geld, um diesen Betrag einzuzahlen.");
@@ -107,13 +109,18 @@ public class BankUIListener implements Listener {
     private void processWithdrawal(Player player, int amount) {
         Coins coins = Main.getInstance().getCoins();
         UUID playerUID = player.getUniqueId();
+        String coinspayedin = CoinFormatter.formatCoins(amount);
+        String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
 
         if (coins.getBankCoins(playerUID) >= amount) {
             coins.withdrawFromBank(playerUID, amount);
             coins.addCoins(playerUID, amount);
-            player.sendMessage("§aDu hast erfolgreich " + amount + "€ von deinem Bankkonto abgehoben.");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast erfolgreich §e" + coinspayedin + "€ §7von deinem Bankkonto abgehoben.");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Dein Kontostand beträgt nun §e" + UserBankCoins + "€");
+            library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
         } else {
             player.sendMessage("§cDu hast nicht genug Geld auf deinem Bankkonto, um diesen Betrag abzuheben.");
+            library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
         }
     }
 }

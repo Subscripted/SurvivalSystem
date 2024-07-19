@@ -21,7 +21,7 @@ public class MySQL {
 
     String username = "root";
     String password = "";
-    String database = "bannedplayers";
+    String database = "survival";
     String host = "localhost";
     String port = "3306";
 
@@ -51,7 +51,7 @@ public class MySQL {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bannedplayers?user=root&password=");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/survival?user=root&password=");
             Bukkit.getServer().getLogger().severe("MySQL connection established!");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

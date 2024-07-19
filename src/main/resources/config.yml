@@ -1,45 +1,1458 @@
 main-menu:
-  size: 27
-  title: Main Menu
+  title: §x§7§3§9§9§C§E§lM§x§7§C§9§B§C§8§la§x§8§6§9§D§C§2§lr§x§8§F§9§F§B§D§lk§x§9§8§A§1§B§7§lt§x§A§2§A§4§B§1§lp§x§A§B§A§6§A§B§ll§x§B§4§A§8§A§6§la§x§B§E§A§A§A§0§lt§x§C§7§A§C§9§A§lz
+  size: 54
   item1:
-    slot: 0
-    item: DIAMOND
-    name: '&bDiamond Item'
-    section: 'Section1'
+    slot: 10
+    item: OAK_WOOD
+    name: '&eHolz'
+    section: 'Holz'
   item2:
-    slot: 1
-    item: GOLD_INGOT
-    name: '&6Gold Item'
-    section: 'Section2'
+    slot: 19
+    item: COBBLESTONE
+    name: '&6Blöcke'
+    section: 'Baublöcke'
+  item3:
+    slot: 28
+    item: GLASS
+    name: '&bGlas'
+    section: 'Glass'
+  item4:
+    slot: 37
+    item: WHITE_CANDLE
+    name: '&fKerzen'
+    section: 'Kerzen'
+  item5:
+    slot: 12
+    item: IRON_PICKAXE
+    name: '&7Tools'
+    section: 'Tools'
+  item6:
+    slot: 21
+    item: BREAD
+    name: '&aEssen'
+    section: 'Essen'
+  item7:
+    slot: 30
+    item: IRON_CHESTPLATE
+    name: '&bRüstung'
+    section: 'Rüstung'
+  item8:
+    slot: 39
+    item: SPAWNER
+    name: '&cAdmin Items'
+    section: 'Admin Items'
+  item9:
+    slot: 14
+    item: ROTTEN_FLESH
+    name: '&2Mob-Drops'
+    section: 'Mobdrops'
+  item10:
+    slot: 23
+    item: GREEN_DYE
+    name: '&cFarbstoffe'
+    section: 'Farbstoffe'
+  item11:
+    slot: 32
+    item: DIAMOND
+    name: '&bErze'
+    section: 'Erze'
+  item12:
+    slot: 41
+    item: REDSTONE
+    name: '&cRedstone'
+    section: 'Redstone'
+  item13:
+    slot: 16
+    item: RED_TULIP
+    name: '&2Pflanzen'
+    section: 'Pflanzen'
+  item14:
+    slot: 25
+    item: MUSIC_DISC_13
+    name: '&cMusik'
+    section: 'Musik'
+  item15:
+    slot: 34
+    item: DUNE_ARMOR_TRIM_SMITHING_TEMPLATE
+    name: '&bTemplates'
+    section: 'Templates'
+  item16:
+    slot: 43
+    item: PIG_SPAWN_EGG
+    name: '&fSpawneggs'
+    section: 'Eggs'
 
 sections:
-  Section1:
-    size: 18
-    title: '&aMenu1'
-    item1:
-      slot: 0
-      item: IRON_SWORD
-      name: '&bIron Sword'
-      buy-price: 10
+  Holz:
+    size: 54
+    title: '&eHolz Shop'
+    oak:
+      item: OAK_LOG
+      slot: 10
+      buy-price: 100
       sell-price: 5
-    item2:
-      slot: 1
-      item: BOW
-      name: '&6Bow'
-      buy-price: 15
-      sell-price: 8
-  Section2:
-    size: 18
-    title: '&aMenu2'
-    item1:
-      slot: 0
-      item: BREAD
-      name: '&eBread'
-      buy-price: 5
+    strippedoak:
+      item: STRIPPED_OAK_LOG
+      slot: 11
+      buy-price: 100
+      sell-price: 5
+    oakplank:
+      item: OAK_PLANKS
+      slot: 12
+      buy-price: 25
       sell-price: 2
-    item2:
-      slot: 1
-      item: COOKED_BEEF
-      name: '&6Cooked Beef'
-      buy-price: 12
+    spruce:
+      item: SPRUCE_LOG
+      slot: 19
+      buy-price: 100
+      sell-price: 5
+    strippedspruce:
+      item: STRIPPED_SPRUCE_LOG
+      slot: 20
+      buy-price: 100
+      sell-price: 5
+    spruceplanks:
+      item: SPRUCE_PLANKS
+      slot: 21
+      buy-price: 25
+      sell-price: 2
+    birch:
+      item: BIRCH_LOG
+      slot: 28
+      buy-price: 100
+      sell-price: 5
+    strippedbirch:
+      item: STRIPPED_BIRCH_LOG
+      slot: 29
+      buy-price: 100
+      sell-price: 5
+    birchplanks:
+      item: BIRCH_PLANKS
+      slot: 30
+      buy-price: 25
+      sell-price: 2
+    jungle:
+      item: JUNGLE_LOG
+      slot: 37
+      buy-price: 100
+      sell-price: 5
+    strippedjungle:
+      item: STRIPPED_JUNGLE_LOG
+      slot: 38
+      buy-price: 100
+      sell-price: 5
+    jungleplanks:
+      item: JUNGLE_PLANKS
+      slot: 39
+      buy-price: 25
+      sell-price: 2
+    acacia:
+      item: ACACIA_LOG
+      slot: 14
+      buy-price: 100
+      sell-price: 5
+    strippedacacia:
+      item: STRIPPED_ACACIA_LOG
+      slot: 15
+      buy-price: 100
+      sell-price: 5
+    acaciaplanks:
+      item: ACACIA_PLANKS
+      slot: 16
+      buy-price: 25
+      sell-price: 2
+    darkoak:
+      item: DARK_OAK_LOG
+      slot: 23
+      buy-price: 100
+      sell-price: 5
+    strippeddarkoak:
+      item: STRIPPED_DARK_OAK_LOG
+      slot: 24
+      buy-price: 100
+      sell-price: 5
+    darkoakplanks:
+      item: DARK_OAK_PLANKS
+      slot: 25
+      buy-price: 25
+      sell-price: 2
+    mangroove:
+      item: MANGROVE_LOG
+      slot: 32
+      buy-price: 100
+      sell-price: 5
+    strippedmangroove:
+      item: STRIPPED_MANGROVE_LOG
+      slot: 33
+      buy-price: 100
+      sell-price: 5
+    mangroveplanks:
+      item: MANGROVE_PLANKS
+      slot: 34
+      buy-price: 25
+      sell-price: 2
+    cherry:
+      item: CHERRY_LOG
+      slot: 41
+      buy-price: 100
+      sell-price: 5
+    strippedcherry:
+      item: STRIPPED_CHERRY_LOG
+      slot: 42
+      buy-price: 100
+      sell-price: 5
+    cherryplanks:
+      item: CHERRY_PLANKS
+      slot: 43
+      buy-price: 25
+      sell-price: 2
+
+  Musik:
+    size: 54
+    title: '&eMusik Shop'
+    oak:
+      item: OAK_LOG
+      slot: 10
+      buy-price: 100
+      sell-price: 5
+
+  Pflanzen:
+    size: 54
+    title: '&aPflanzen Shop'
+    rotetulp:
+      item: RED_TULIP
+      slot: 10
+      buy-price: 500
+      sell-price: 1
+    orangetulpe:
+      item: ORANGE_TULIP
+      slot: 11
+      buy-price: 500
+      sell-price: 1
+    weißetulpe:
+      item: WHITE_TULIP
+      slot: 12
+      buy-price: 500
+      sell-price: 1
+    pinketulpe:
+      item: PINK_TULIP
+      slot: 13
+      buy-price: 500
+      sell-price: 1
+    flower1:
+      item: DANDELION
+      slot: 14
+      buy-price: 500
+      sell-price: 1
+    flower2:
+      item: POPPY
+      slot: 15
+      buy-price: 500
+      sell-price: 1
+    flower3:
+      item: BLUE_ORCHID
+      slot: 15
+      buy-price: 500
+      sell-price: 1
+    flower4:
+      item: ALLIUM
+      slot: 16
+      buy-price: 500
+      sell-price: 1
+    flower5:
+      item: AZURE_BLUET
+      slot: 19
+      buy-price: 500
+      sell-price: 1
+    flower6:
+      item: OXEYE_DAISY
+      slot: 19
+      buy-price: 500
+      sell-price: 1
+    flower7:
+      item: CORNFLOWER
+      slot: 20
+      buy-price: 500
+      sell-price: 1
+    flower8:
+      item: LILY_OF_THE_VALLEY
+      slot: 21
+      buy-price: 500
+      sell-price: 1
+    flower9:
+      item: TORCHFLOWER
+      slot: 22
+      buy-price: 1000
+      sell-price: 1
+    flower10:
+      item: WITHER_ROSE
+      slot: 23
+      buy-price: 10000
+      sell-price: 1
+    flower11:
+      item: PINK_PETALS
+      slot: 24
+      buy-price: 600
+      sell-price: 1
+    flower12:
+      item: SUNFLOWER
+      slot: 25
+      buy-price: 600
+      sell-price: 2
+    flower13:
+      item: LILAC
+      slot: 28
+      buy-price: 600
+      sell-price: 2
+    flower14:
+      item: ROSE_BUSH
+      slot: 29
+      buy-price: 600
+      sell-price: 2
+    flower15:
+      item: PEONY
+      slot: 30
+      buy-price: 600
+      sell-price: 2
+    flower16:
+      item: PITCHER_PLANT
+      slot: 31
+      buy-price: 1200
+      sell-price: 10
+    flower17:
+      item: SUGAR_CANE
+      slot: 32
+      buy-price: 1200
+      sell-price: 5
+    cactus:
+      item: CACTUS
+      slot: 33
+      buy-price: 900
+      sell-price: 7
+    vines:
+      item: VINE
+      slot: 34
+      buy-price: 500
+      sell-price: 5
+    kelp:
+      item: KELP
+      slot: 37
+      buy-price: 500
+      sell-price: 1
+    seapickle:
+      item: SEA_PICKLE
+      slot: 38
+      buy-price: 600
+      sell-price: 10
+    netherwart:
+      item: NETHER_WART
+      slot: 39
+      buy-price: 1200
+      sell-price: 10
+    brownmushroom:
+      item: BROWN_MUSHROOM
+      slot: 40
+      buy-price: 600
+      sell-price: 1
+    redmushroom:
+      item: RED_MUSHROOM
+      slot: 41
+      buy-price: 600
+      sell-price: 1
+    crimsonfungus:
+      item: CRIMSON_FUNGUS
+      slot: 42
+      buy-price: 600
+      sell-price: 1
+    warpedfungus:
+      item: WARPED_FUNGUS
+      slot: 43
+      buy-price: 600
+      sell-price: 1
+
+  Redstone:
+    size: 54
+    title: '&eRedstone Shop'
+    torch:
+      item: REDSTONE_TORCH
+      slot: 10
+      buy-price: 1100
+      sell-price: 5
+    redstoneblock:
+      item: REDSTONE_BLOCK
+      slot: 11
+      buy-price: 8100
+      sell-price: 5
+    redstonerepeater:
+      item: REPEATER
+      slot: 12
+      buy-price: 3200
+      sell-price: 10
+    redstonecomparator:
+      item: COMPARATOR
+      slot: 13
+      buy-price: 3200
+      sell-price: 10
+    target:
+      item: TARGET
+      slot: 14
+      buy-price: 1500
+      sell-price: 10
+    lever:
+      item: LEVER
+      slot: 15
+      buy-price: 900
+      sell-price: 10
+    redstonelamp:
+      item: REDSTONE_LAMP
+      slot: 16
+      buy-price: 1500
+      sell-price: 10
+    daylight:
+      item: DAYLIGHT_DETECTOR
+      slot: 19
+      buy-price: 1600
+      sell-price: 10
+    hopper:
+      item: HOPPER
+      slot: 20
+      buy-price: 2100
+      sell-price: 10
+    dispenser:
+      item: DISPENSER
+      slot: 21
+      buy-price: 2200
+      sell-price: 10
+    dropper:
+      item: DROPPER
+      slot: 22
+      buy-price: 2200
+      sell-price: 10
+    observer:
+      item: OBSERVER
+      slot: 23
+      buy-price: 2500
+      sell-price: 10
+    slimeblock:
+      item: SLIME_BLOCK
+      slot: 24
+      buy-price: 5000
+      sell-price: 10
+    honeyblock:
+      item: HONEY_BLOCK
+      slot: 25
+      buy-price: 5000
+      sell-price: 10
+    rail:
+      item: RAIL
+      slot: 28
+      buy-price: 3000
+      sell-price: 10
+    poweredrail:
+      item: POWERED_RAIL
+      slot: 29
+      buy-price: 3200
+      sell-price: 10
+    detectorrail:
+      item: DETECTOR_RAIL
+      slot: 30
+      buy-price: 3200
+      sell-price: 10
+    activatorrail:
+      item: ACTIVATOR_RAIL
+      slot: 31
+      buy-price: 3200
+      sell-price: 10
+    piston:
+      item: PISTON
+      slot: 32
+      buy-price: 2100
+      sell-price: 10
+    stickypiston:
+      item: STICKY_PISTON
+      slot: 33
+      buy-price: 2300
+      sell-price: 10
+    minecart:
+      item: MINECART
+      slot: 34
+      buy-price: 2000
+      sell-price: 10
+
+
+
+
+  Erze:
+    size: 45
+    title: '&eErze Shop'
+    diamant:
+      item: DIAMOND
+      slot: 10
+      buy-price: 1100
+      sell-price: 250
+    emerald:
+      item: EMERALD
+      slot: 11
+      buy-price: 1000
+      sell-price: 150
+    lapis:
+      item: LAPIS_LAZULI
+      slot: 12
+      buy-price: 500
+      sell-price: 50
+    coal:
+      item: COAL
+      slot: 13
+      buy-price: 600
+      sell-price: 10
+    woodencoal:
+      item: CHARCOAL
+      slot: 14
+      buy-price: 600
+      sell-price: 15
+    netherquarz:
+      item: QUARTZ
+      slot: 15
+      buy-price: 1200
+      sell-price: 20
+    amethyst:
+      item: AMETHYST_SHARD
+      slot: 16
+      buy-price: 1000
+      sell-price: 25
+    rawiron:
+      item: RAW_IRON
+      slot: 28
+      buy-price: 700
+      sell-price: 100
+    rawgoldingot:
+      item: RAW_GOLD
+      slot: 29
+      buy-price: 800
+      sell-price: 110
+    rawnetherite:
+      item: NETHERITE_SCRAP
+      slot: 30
+      buy-price: 5000
+      sell-price: 500
+    rawcopper:
+      item: RAW_COPPER
+      slot: 31
+      buy-price: 500
+      sell-price: 10
+    redstone:
+      item: REDSTONE
+      slot: 32
+      buy-price: 900
+      sell-price: 5
+    prismarincrystal:
+      item: PRISMARINE_CRYSTALS
+      slot: 33
+      buy-price: 1500
+      sell-price: 10
+    prismarinshard:
+      item: PRISMARINE_SHARD
+      slot: 34
+      buy-price: 1500
+      sell-price: 10
+
+  Farbstoffe:
+    size: 54
+    title: '&eFarbstoffe Shop'
+    white:
+      item: WHITE_DYE
+      slot: 10
+      buy-price: 100
+      sell-price: 5
+    lightgray:
+      item: LIGHT_GRAY_DYE
+      slot: 11
+      buy-price: 100
+      sell-price: 5
+    gray:
+      item: GRAY_DYE
+      slot: 12
+      buy-price: 100
+      sell-price: 5
+    black:
+      item: BLACK_DYE
+      slot: 13
+      buy-price: 100
+      sell-price: 5
+    brown:
+      item: BROWN_DYE
+      slot: 14
+      buy-price: 100
+      sell-price: 5
+    red:
+      item: RED_DYE
+      slot: 15
+      buy-price: 100
+      sell-price: 5
+    orange:
+      item: ORANGE_DYE
+      slot: 16
+      buy-price: 100
+      sell-price: 5
+    yerllow:
+      item: YELLOW_DYE
+      slot: 19
+      buy-price: 100
+      sell-price: 5
+    lime:
+      item: LIME_DYE
+      slot: 20
+      buy-price: 100
+      sell-price: 5
+    green:
+      item: GREEN_DYE
+      slot: 21
+      buy-price: 100
+      sell-price: 5
+    cyan:
+      item: CYAN_DYE
+      slot: 22
+      buy-price: 100
+      sell-price: 5
+    lightblue:
+      item: LIGHT_BLUE_DYE
+      slot: 23
+      buy-price: 100
+      sell-price: 5
+    blue:
+      item: BLUE_DYE
+      slot: 24
+      buy-price: 100
+      sell-price: 5
+    purple:
+      item: PURPLE_DYE
+      slot: 25
+      buy-price: 100
+      sell-price: 5
+    magenta:
+      item: MAGENTA_DYE
+      slot: 28
+      buy-price: 100
+      sell-price: 5
+    pink:
+      item: PINK_DYE
+      slot: 29
+      buy-price: 100
+      sell-price: 5
+
+  Mobdrops:
+    size: 45
+    title: '&eMobdrop Shop'
+    rottenflesh:
+      item: ROTTEN_FLESH
+      slot: 10
+      buy-price: 40
       sell-price: 6
+    snowball:
+      item: SNOWBALL
+      slot: 11
+      buy-price: 100
+      sell-price: 1
+    bone:
+      item: BONE
+      slot: 12
+      buy-price: 120
+      sell-price: 7
+    leather:
+      item: LEATHER
+      slot: 13
+      buy-price: 110
+      sell-price: 10
+    string:
+      item: STRING
+      slot: 14
+      buy-price: 70
+      sell-price: 5
+    spinnenauge:
+      item: SPIDER_EYE
+      slot: 15
+      buy-price: 80
+      sell-price: 5
+    gunpowder:
+      item: GUNPOWDER
+      slot: 16
+      buy-price: 970
+      sell-price: 15
+    enderpearl:
+      item: ENDER_PEARL
+      slot: 19
+      buy-price: 1200
+      sell-price: 12
+    blazerod:
+      item: BLAZE_ROD
+      slot: 20
+      buy-price: 1500
+      sell-price: 20
+    ghasttear:
+      item: GHAST_TEAR
+      slot: 21
+      buy-price: 2000
+      sell-price: 100
+    magmacream:
+      item: MAGMA_CREAM
+      slot: 22
+      buy-price: 2000
+      sell-price: 100
+    slimeball:
+      item: SLIME_BALL
+      slot: 23
+      buy-price: 1000
+      sell-price: 30
+    phantom:
+      item: PHANTOM_MEMBRANE
+      slot: 24
+      buy-price: 1200
+      sell-price: 20
+    firecharge:
+      item: FIRE_CHARGE
+      slot: 25
+      buy-price: 500
+      sell-price: 4
+    flint:
+      item: FLINT
+      slot: 28
+      buy-price: 1200
+      sell-price: 4
+    nautilus:
+      item: NAUTILUS_SHELL
+      slot: 29
+      buy-price: 1200
+      sell-price: 10
+    rabbithide:
+      item: RABBIT_HIDE
+      slot: 30
+      buy-price: 2500
+      sell-price: 20
+    rabbitfoot:
+      item: RABBIT_FOOT
+      slot: 31
+      buy-price: 2500
+      sell-price: 17
+
+  Baublöcke:
+    size: 54
+    title: '&6Baublöcke Shop'
+    stone:
+      item: STONE
+      slot: 10
+      buy-price: 300
+      sell-price: 4
+    stonebricks:
+      item: STONE_BRICKS
+      slot: 11
+      buy-price: 500
+      sell-price: 5
+    cobblestone:
+      item: COBBLESTONE
+      slot: 12
+      buy-price: 100
+      sell-price: 2
+    smoothstone:
+      item: SMOOTH_STONE
+      slot: 13
+      buy-price: 500
+      sell-price: 5
+    chiseledstonebricks:
+      item: CHISELED_STONE_BRICKS
+      slot: 14
+      buy-price: 600
+      sell-price: 6
+    mossycobblestone:
+      item: MOSSY_COBBLESTONE
+      slot: 15
+      buy-price: 110
+      sell-price: 3
+    mossystonebricks:
+      item: MOSSY_STONE_BRICKS
+      slot: 16
+      buy-price: 550
+      sell-price: 5
+    sandstone:
+      item: SANDSTONE
+      slot: 19
+      buy-price: 150
+      sell-price: 3
+    smoothsandstone:
+      item: SMOOTH_SANDSTONE
+      slot: 20
+      buy-price: 200
+      sell-price: 6
+    cutstandstone:
+      item: CUT_SANDSTONE
+      slot: 21
+      buy-price: 300
+      sell-price: 5
+    chiseledsandstone:
+      item: CHISELED_SANDSTONE
+      slot: 22
+      buy-price: 500
+      sell-price: 6
+    redchiseledsandstone:
+      item: CHISELED_RED_SANDSTONE
+      slot: 23
+      buy-price: 500
+      sell-price: 6
+    redcutstandstone:
+      item: CUT_RED_SANDSTONE
+      slot: 24
+      buy-price: 500
+      sell-price: 6
+    redsandstone:
+      item: RED_SANDSTONE
+      slot: 25
+      buy-price: 200
+      sell-price: 2
+    smoothredsandstone:
+      item: SMOOTH_RED_SANDSTONE
+      slot: 28
+      buy-price: 300
+      sell-price: 3
+    grassblock:
+      item: GRASS_BLOCK
+      slot: 29
+      buy-price: 150
+      sell-price: 2
+    dirt:
+      item: DIRT
+      slot: 30
+      buy-price: 100
+      sell-price: 1
+    obsidian:
+      item: OBSIDIAN
+      slot: 31
+      buy-price: 2500
+      sell-price: 12
+    ice:
+      item: ICE
+      slot: 32
+      buy-price: 1000
+      sell-price: 10
+    soulsand:
+      item: SOUL_SAND
+      slot: 33
+      buy-price: 1200
+      sell-price: 9
+    endstone:
+      item: END_STONE
+      slot: 34
+      buy-price: 800
+      sell-price:
+    mossblock:
+      item: MOSS_BLOCK
+      slot: 37
+      buy-price: 650
+      sell-price: 9
+    granite:
+      item: GRANITE
+      slot: 38
+      buy-price: 150
+      sell-price: 4
+    diorite:
+      item: DIORITE
+      slot: 39
+      buy-price: 150
+      sell-price: 4
+    andesite:
+      item: ANDESITE
+      slot: 40
+      buy-price: 150
+      sell-price: 4
+    netherrack:
+      item: NETHERRACK
+      slot: 41
+      buy-price: 200
+      sell-price: 2
+    blackstone:
+      item: BLACKSTONE
+      slot: 42
+      buy-price: 600
+      sell-price: 9
+    basalt:
+      item: BASALT
+      slot: 43
+      buy-price: 300
+      sell-price: 2
+
+
+
+
+  Glass:
+    size: 54
+    title: '&bGlas Shop'
+    glass:
+      item: GLASS
+      slot: 10
+      buy-price: 2
+      sell-price: 1
+    tintedglass:
+      item: TINTED_GLASS
+      slot: 11
+      buy-price: 3
+      sell-price: 2
+    whitestainedglass:
+      item: WHITE_STAINED_GLASS
+      slot: 12
+      buy-price: 3
+      sell-price: 2
+    lightgraystainedglass:
+      item: LIGHT_GRAY_STAINED_GLASS
+      slot: 13
+      buy-price: 4
+      sell-price: 2
+    grayglass:
+      item: GRAY_STAINED_GLASS
+      slot: 14
+      buy-price: 4
+      sell-price: 3
+    blackglass:
+      item: BLACK_STAINED_GLASS
+      slot: 15
+      buy-price: 5
+      sell-price: 3
+    brownglass:
+      item: BROWN_STAINED_GLASS
+      slot: 15
+      buy-price: 5
+      sell-price: 3
+    redglass:
+      item: RED_STAINED_GLASS
+      slot: 16
+      buy-price: 5
+      sell-price: 3
+    orangeglass:
+      item: ORANGE_STAINED_GLASS
+      slot: 19
+      buy-price: 5
+      sell-price: 3
+    yellowglass:
+      item: YELLOW_STAINED_GLASS
+      slot: 20
+      buy-price: 5
+      sell-price: 3
+    limeglass:
+      item: LIME_STAINED_GLASS
+      slot: 21
+      buy-price: 5
+      sell-price: 3
+    greenglass:
+      item: GREEN_STAINED_GLASS
+      slot: 22
+      buy-price: 5
+      sell-price: 3
+    cyanglass:
+      item: CYAN_STAINED_GLASS
+      slot: 23
+      buy-price: 5
+      sell-price: 3
+    lightblueglass:
+      item: LIGHT_BLUE_STAINED_GLASS
+      slot: 24
+      buy-price: 5
+      sell-price: 3
+    blueglass:
+      item: BLUE_STAINED_GLASS
+      slot: 25
+      buy-price: 5
+      sell-price: 3
+    purpleglass:
+      item: PURPLE_STAINED_GLASS
+      slot: 28
+      buy-price: 5
+      sell-price: 3
+    magentaglass:
+      item: MAGENTA_STAINED_GLASS
+      slot: 28
+      buy-price: 5
+      sell-price: 3
+    pinkglass:
+      item: PINK_STAINED_GLASS
+      slot: 29
+      buy-price: 5
+      sell-price: 3
+
+
+
+  Kerzen:
+    size: 54
+    title: '&fKerzen Shop'
+    candle:
+      item: CANDLE
+      slot: 10
+      buy-price: 2
+      sell-price: 1
+    white_candle:
+      item: WHITE_CANDLE
+      slot: 11
+      buy-price: 3
+      sell-price: 2
+    lightgraycandle:
+      item: LIGHT_GRAY_CANDLE
+      slot: 12
+      buy-price: 3
+      sell-price: 2
+    graycandle:
+      item: GRAY_CANDLE
+      slot: 13
+      buy-price: 4
+      sell-price: 2
+    blackcandle:
+      item: BLACK_CANDLE
+      slot: 14
+      buy-price: 4
+      sell-price: 3
+    browncandle:
+      item: BROWN_CANDLE
+      slot: 15
+      buy-price: 5
+      sell-price: 3
+    redcandle:
+      item: RED_CANDLE
+      slot: 16
+      buy-price: 5
+      sell-price: 3
+    orangecandle:
+      item: ORANGE_CANDLE
+      slot: 19
+      buy-price: 5
+      sell-price: 3
+    yellowcandle:
+      item: YELLOW_CANDLE
+      slot: 19
+      buy-price: 5
+      sell-price: 3
+    limecandle:
+      item: LIME_CANDLE
+      slot: 20
+      buy-price: 5
+      sell-price: 3
+    greencandle:
+      item: GREEN_CANDLE
+      slot: 21
+      buy-price: 5
+      sell-price: 3
+    cyancandle:
+      item: CYAN_CANDLE
+      slot: 22
+      buy-price: 5
+      sell-price: 3
+    lightbluecandle:
+      item: LIGHT_BLUE_CANDLE
+      slot: 23
+      buy-price: 5
+      sell-price: 3
+    bluecandle:
+      item: BLUE_CANDLE
+      slot: 24
+      buy-price: 5
+      sell-price: 3
+    purplecandle:
+      item: PURPLE_CANDLE
+      slot: 25
+      buy-price: 5
+      sell-price: 3
+    magentacandle:
+      item: MAGENTA_CANDLE
+      slot: 28
+      buy-price: 5
+      sell-price: 3
+    pinkcandle:
+      item: PINK_CANDLE
+      slot: 29
+      buy-price: 5
+      sell-price: 3
+
+  Tools:
+    size: 54
+    title: '&7Werkzeuge Shop'
+    ironpicke:
+      item: IRON_PICKAXE
+      slot: 10
+      buy-price: 1700
+      sell-price: 10
+    ironaxe:
+      item: IRON_AXE
+      slot: 11
+      buy-price: 1600
+      sell-price: 10
+    ironshovel:
+      item: IRON_SHOVEL
+      slot: 12
+      buy-price: 1400
+      sell-price: 9
+    ironsword:
+      item: IRON_SWORD
+      slot: 13
+      buy-price: 2000
+      sell-price: 11
+    ironhoe:
+      item: IRON_HOE
+      slot: 14
+      buy-price: 1600
+      sell-price: 10
+    goldpicke:
+      item: GOLDEN_PICKAXE
+      slot: 19
+      buy-price: 2000
+      sell-price: 10
+    goldaxe:
+      item: GOLDEN_AXE
+      slot: 20
+      buy-price: 2000
+      sell-price: 10
+    goldshovel:
+      item: GOLDEN_SHOVEL
+      slot: 21
+      buy-price: 2000
+      sell-price: 10
+    goldssword:
+      item: GOLDEN_SWORD
+      slot: 22
+      buy-price: 2000
+      sell-price: 10
+    goldhoe:
+      item: GOLDEN_HOE
+      slot: 23
+      buy-price: 2000
+      sell-price: 10
+    diamondpicke:
+      item: DIAMOND_PICKAXE
+      slot: 28
+      buy-price: 5000
+      sell-price: 50
+    diamondaxe:
+      item: DIAMOND_AXE
+      slot: 29
+      buy-price: 5100
+      sell-price: 50
+    diamondshovel:
+      item: DIAMOND_SHOVEL
+      slot: 30
+      buy-price: 4000
+      sell-price: 40
+    diamondsword:
+      item: DIAMOND_SWORD
+      slot: 31
+      buy-price: 5500
+      sell-price: 55
+    diamondhoe:
+      item: DIAMOND_HOE
+      slot: 32
+      buy-price: 3500
+      sell-price: 35
+    netheritepickaxe:
+      item: NETHERITE_PICKAXE
+      slot: 37
+      buy-price: 7000
+      sell-price: 100
+    netheriteaxe:
+      item: NETHERITE_AXE
+      slot: 38
+      buy-price: 7000
+      sell-price: 100
+    netheriteshovel:
+      item: NETHERITE_SHOVEL
+      slot: 39
+      buy-price: 7000
+      sell-price: 100
+    netheritesword:
+      item: NETHERITE_SWORD
+      slot: 40
+      buy-price: 7000
+      sell-price: 100
+    netheritehoe:
+      item: NETHERITE_HOE
+      slot: 41
+      buy-price: 7000
+      sell-price: 100
+    fishingrod:
+      item: FISHING_ROD
+      slot: 16
+      buy-price: 2600
+      sell-price: 7
+    shear:
+      item: SHEARS
+      slot: 25
+      buy-price: 1400
+      sell-price: 5
+    brush:
+      item: BRUSH
+      slot: 34
+      buy-price: 2000
+      sell-price: 10
+    lead:
+      item: LEAD
+      slot: 43
+      buy-price: 5000
+      sell-price: 20
+
+
+  Essen:
+    size: 54
+    title: '&aEssens Shop'
+    steak:
+      item: COOKED_BEEF
+      slot: 10
+      buy-price: 500
+      sell-price: 8
+    porkchop:
+      item: COOKED_PORKCHOP
+      slot: 11
+      buy-price: 500
+      sell-price: 8
+    mutton:
+      item: COOKED_MUTTON
+      slot: 12
+      buy-price: 500
+      sell-price: 8
+    chicken:
+      item: COOKED_CHICKEN
+      slot: 13
+      buy-price: 500
+      sell-price: 8
+    rabbit:
+      item: COOKED_RABBIT
+      slot: 14
+      buy-price: 500
+      sell-price: 8
+    cod:
+      item: COOKED_COD
+      slot: 15
+      buy-price: 400
+      sell-price: 7
+    salmon:
+      item: COOKED_SALMON
+      slot: 16
+      buy-price: 400
+      sell-price: 7
+    bread:
+      item: BREAD
+      slot: 19
+      buy-price: 350
+      sell-price: 8
+    cookie:
+      item: COOKIE
+      slot: 20
+      buy-price: 150
+      sell-price: 2
+    cake:
+      item: CAKE
+      slot: 21
+      buy-price: 2300
+      sell-price: 800
+    pumpkinpie:
+      item: PUMPKIN_PIE
+      slot: 22
+      buy-price: 1500
+      sell-price: 400
+    mushroomstew:
+      item: MUSHROOM_STEW
+      slot: 23
+      buy-price: 500
+      sell-price: 6
+    beetrootstew:
+      item: BEETROOT_SOUP
+      slot: 24
+      buy-price: 500
+      sell-price: 6
+    rabbitstew:
+      item: RABBIT_STEW
+      slot: 25
+      buy-price: 500
+      sell-price: 6
+    apple:
+      item: APPLE
+      slot: 28
+      buy-price: 360
+      sell-price: 5
+    melonslice:
+      item: MELON_SLICE
+      slot: 29
+      buy-price: 100
+      sell-price: 2
+    sweetberries:
+      item: SWEET_BERRIES
+      slot: 30
+      buy-price: 300
+      sell-price: 2
+    glowberries:
+      item: GLOW_BERRIES
+      slot: 30
+      buy-price: 300
+      sell-price: 2
+    carrot:
+      item: CARROT
+      slot: 31
+      buy-price: 500
+      sell-price: 6
+    potato:
+      item: POTATO
+      slot: 32
+      buy-price: 400
+      sell-price: 5
+    bakedpotato:
+      item: BAKED_POTATO
+      slot: 33
+      buy-price: 800
+      sell-price: 10
+    beetroom:
+      item: BEETROOT
+      slot: 34
+      buy-price: 200
+      sell-price: 2
+
+
+  Rüstung:
+    size: 54
+    title: '&bRüstungs Shop'
+    section1:
+      item: IRON_HELMET
+      slot: 10
+      buy-price: 1200
+      sell-price: 50
+    section2:
+      item: IRON_CHESTPLATE
+      slot: 19
+      buy-price: 1200
+      sell-price: 50
+    section3:
+      item: IRON_LEGGINGS
+      slot: 28
+      buy-price: 1200
+      sell-price: 50
+    section4:
+      item: IRON_BOOTS
+      slot: 37
+      buy-price: 1200
+      sell-price: 50
+
+
+    goldhelmet:
+      item: GOLDEN_HELMET
+      slot: 11
+      buy-price: 5000
+      sell-price: 150
+    goldchestplate:
+      item: GOLDEN_CHESTPLATE
+      slot: 20
+      buy-price: 5000
+      sell-price: 150
+    goldleggings:
+      item: GOLDEN_LEGGINGS
+      slot: 29
+      buy-price: 5000
+      sell-price: 150
+    goldboots:
+      item: GOLDEN_BOOTS
+      slot: 38
+      buy-price: 5000
+      sell-price: 150
+
+
+    diamondhelmet:
+      item: DIAMOND_HELMET
+      slot: 12
+      buy-price: 12000
+      sell-price: 400
+    diamondchestplate:
+      item: DIAMOND_CHESTPLATE
+      slot: 21
+      buy-price: 12000
+      sell-price: 400
+    diamondleggings:
+      item: DIAMOND_LEGGINGS
+      slot: 30
+      buy-price: 12000
+      sell-price: 400
+    diamondboots:
+      item: DIAMOND_BOOTS
+      slot: 39
+      buy-price: 12000
+      sell-price: 400
+
+
+    netheritehelmet:
+      item: NETHERITE_HELMET
+      slot: 13
+      buy-price: 45000
+      sell-price: 100
+    netheritechestplate:
+      item: NETHERITE_CHESTPLATE
+      slot: 22
+      buy-price: 50000
+      sell-price: 100
+    netheriteleggings:
+      item: NETHERITE_LEGGINGS
+      slot: 31
+      buy-price: 45000
+      sell-price: 100
+    netheriteboots:
+      item: NETHERITE_BOOTS
+      slot: 40
+      buy-price: 45000
+      sell-price: 100
+
+
+    elytra:
+      item: ELYTRA
+      slot: 16
+      buy-price: 25000
+      sell-price: 2500
+    schild:
+      item: SHIELD
+      slot: 25
+      buy-price: 2600
+      sell-price: 500
+    schildkrötenpanzer:
+      item: TURTLE_HELMET
+      slot: 34
+      buy-price: 10000
+      sell-price: 2000
+
+  Admin Items:
+    size: 45
+    title: '&cAdmin Shop'
+    spawner:
+      item: SPAWNER
+      slot: 10
+      buy-price: 500000
+      sell-price: 100000
+    dragonegg:
+      item: DRAGON_EGG
+      slot: 28
+      buy-price: 10000000
+      sell-price: 2300000
+    barrier:
+      item: BARRIER
+      slot: 12
+      buy-price: 1200000
+      sell-price: 500000
+    portalframe:
+      item: END_PORTAL_FRAME
+      slot: 30
+      buy-price: 1200000
+      sell-price: 100000
+    endcrystal:
+      item: END_CRYSTAL
+      slot: 14
+      buy-price: 50000
+      sell-price: 1600
+    structurevoid:
+      item: STRUCTURE_VOID
+      slot: 32
+      buy-price: 1500000
+      sell-price: 100000
+    totem:
+      item: TOTEM_OF_UNDYING
+      slot: 16
+      buy-price: 15000
+      sell-price: 800
+    beacon:
+      item: NETHER_STAR
+      slot: 34
+      buy-price: 25000
+      sell-price: 5000

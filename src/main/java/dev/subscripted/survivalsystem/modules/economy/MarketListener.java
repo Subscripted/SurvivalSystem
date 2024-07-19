@@ -2,10 +2,7 @@ package dev.subscripted.survivalsystem.modules.economy;
 
 import dev.subscripted.survivalsystem.Main;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
-import dev.subscripted.survivalsystem.utils.CustomSound;
-import dev.subscripted.survivalsystem.utils.InventoryAdvancer;
-import dev.subscripted.survivalsystem.utils.ItemBuilder;
-import dev.subscripted.survivalsystem.utils.SoundLibrary;
+import dev.subscripted.survivalsystem.utils.*;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
@@ -35,10 +32,10 @@ public class MarketListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() == null) return;
 
-        String title = ChatColor.stripColor(event.getView().getTitle());
+        String title = event.getView().getTitle();
         ItemStack goback = new ItemStack(Material.RED_BANNER);
         ItemMeta meta = goback.getItemMeta();
-        meta.setDisplayName("§cGo Back!");
+        meta.setDisplayName("§cZurück!");
         goback.setItemMeta(meta);
 
         if (title != null) {
@@ -49,17 +46,17 @@ public class MarketListener implements Listener {
                     if (clickedItem != null) {
                         handleMainMenuClick(event.getSlot(), (Player) event.getWhoClicked());
                     }
-                } else if (title.endsWith(" Menu")) {
+                } else if (title.endsWith(" Markt")) {
                     event.setCancelled(true);
                     ItemStack clickedItem = event.getCurrentItem();
                     if (clickedItem != null) {
-                        handleSectionMenuClick(event.getSlot(), title.replace(" Menu", ""), (Player) event.getWhoClicked());
+                        handleSectionMenuClick(event.getSlot(), title.replace(" Markt", ""), (Player) event.getWhoClicked());
                     }
                     if (event.getCurrentItem().equals(goback)) {
                         MarketCommand marketCommand = new MarketCommand(library);
                         marketCommand.openMainMenu((Player) event.getWhoClicked());
                     }
-                } else if (title.startsWith("Choose Action")) {
+                } else if (title.startsWith("Aktion Auswählen")) {
                     event.setCancelled(true);
                     ItemStack clickedItem = event.getCurrentItem();
                     if (clickedItem != null) {
@@ -69,7 +66,7 @@ public class MarketListener implements Listener {
                         MarketCommand marketCommand = new MarketCommand(library);
                         marketCommand.openMainMenu((Player) event.getWhoClicked());
                     }
-                } else if (title.startsWith("Choose Quantity")) {
+                } else if (title.startsWith("Wähle deine Anzahl")) {
                     event.setCancelled(true);
                     ItemStack clickedItem = event.getCurrentItem();
 
@@ -146,9 +143,9 @@ public class MarketListener implements Listener {
     private void openSectionMenu(String section, Player player) {
         FileConfiguration config = getConfig();
         int size = config.getInt("sections." + section + ".size", 27);
-        Inventory sectionMenu = Bukkit.createInventory(null, size, ChatColor.GREEN + section + " Menu");
+        Inventory sectionMenu = Bukkit.createInventory(null, size, section + " Markt");
         ItemBuilder nulled = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName(" ");
-        ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cGo Back!");
+        ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cZurück!");
         InventoryAdvancer.fillNulledInventory(nulled, sectionMenu);
         int lastIndex = sectionMenu.getSize() - 1;
 
@@ -190,21 +187,21 @@ public class MarketListener implements Listener {
     }
 
     private void openActionChoiceMenu(Player player, ItemStack item, int buyPrice, int sellPrice) {
-        Inventory actionMenu = Bukkit.createInventory(null, 9, ChatColor.GREEN + "Choose Action");
+        Inventory actionMenu = Bukkit.createInventory(null, 9, "Aktion Auswählen");
         ItemBuilder nulled = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName(" ");
         InventoryAdvancer.fillNulledInventory(nulled, actionMenu);
 
         ItemStack buyItem = new ItemStack(Material.LIME_DYE);
         ItemMeta buyMeta = buyItem.getItemMeta();
-        buyMeta.setDisplayName(ChatColor.GREEN + "Buy");
+        buyMeta.setDisplayName(ChatColor.GREEN + "Kaufen");
         buyItem.setItemMeta(buyMeta);
 
         ItemStack sellItem = new ItemStack(Material.RED_DYE);
         ItemMeta sellMeta = sellItem.getItemMeta();
-        sellMeta.setDisplayName(ChatColor.RED + "Sell");
+        sellMeta.setDisplayName(ChatColor.RED + "Verkaufen");
         sellItem.setItemMeta(sellMeta);
 
-        ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cGo Back!");
+        ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cZurück!");
 
         actionMenu.setItem(3, buyItem);
         actionMenu.setItem(5, sellItem);
@@ -229,7 +226,7 @@ public class MarketListener implements Listener {
         ItemStack item = (ItemStack) player.getMetadata("market_item").get(0).value();
         Material material = item.getType();
 
-        Inventory quantityMenu = Bukkit.createInventory(null, 27, ChatColor.GREEN + "Choose Quantity");
+        Inventory quantityMenu = Bukkit.createInventory(null, 27, "Wähle deine Anzahl");
         ItemBuilder nulled = new ItemBuilder(isBuying ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE).setDisplayName(" ");
         InventoryAdvancer.fillNulledInventory(nulled, quantityMenu);
 
@@ -247,7 +244,7 @@ public class MarketListener implements Listener {
             for (int i = 0; i < quantities.length; i++) {
                 quantityMenu.setItem(10 + i, quantities[i]);
             }
-            ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cGo Back!");
+            ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cZurück!");
             quantityMenu.setItem(26, goback.build());
         } else {
             ItemStack singleItem = createQuantityItem(material, 1);
@@ -363,7 +360,7 @@ public class MarketListener implements Listener {
                 }
             } else {
                 library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Platz im Inventar oder nicht genug Coins, um dieses Item zu kaufen.");
+                player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Coins, um dieses Item zu kaufen.");
                 player.closeInventory();
             }
         } else {

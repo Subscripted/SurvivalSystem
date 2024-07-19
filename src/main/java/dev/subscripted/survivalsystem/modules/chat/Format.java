@@ -13,7 +13,6 @@ public class Format implements Listener {
         LuckpermsService luckpermsService = new LuckpermsService();
         Player player = event.getPlayer();
         String playerName = player.getName();
-        // Hier könnte dein Rangsystem eingebaut werden, um den Rang des Spielers abzurufen
         String playerRank = luckpermsService.getPlayerRang(player.getUniqueId()).replace("&", "§");
 
         String chatFormat = playerRank + " §8• §7" + playerName + " §8» §7" + event.getMessage();

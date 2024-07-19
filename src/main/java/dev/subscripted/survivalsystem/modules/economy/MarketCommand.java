@@ -1,6 +1,8 @@
 package dev.subscripted.survivalsystem.modules.economy;
 
 import dev.subscripted.survivalsystem.Main;
+import dev.subscripted.survivalsystem.modules.database.connections.Coins;
+import dev.subscripted.survivalsystem.utils.CoinFormatter;
 import dev.subscripted.survivalsystem.utils.CustomSound;
 import dev.subscripted.survivalsystem.utils.InventoryAdvancer;
 import dev.subscripted.survivalsystem.utils.ItemBuilder;
@@ -39,11 +41,16 @@ public class MarketCommand implements CommandExecutor {
         openMainMenu(player);
         return true;
     }
-
     public void openMainMenu(Player player) {
         FileConfiguration config = Main.getInstance().getConfig();
         int size = config.getInt("main-menu.size", 27);
-        Inventory mainMenu = Bukkit.createInventory(null, size, ChatColor.GREEN + config.getString("main-menu.title", "Main Menu"));
+        Inventory mainMenu = Bukkit.createInventory(null, size, config.getString("main-menu.title", "Main Menu").replace("&", "§"));
+        Coins coins = Main.getInstance().getCoins();
+        int playerCoins = coins.getCoins(player.getUniqueId());
+        ItemBuilder profile = new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setDisplayName("§8» §8| §bDein Profil")
+                .addLoreLine(" ")
+                .addLoreLine(" §8• §8| §8» §7Dein Guthaben - §e" + CoinFormatter.formatCoins(playerCoins) + "€§r");
+
         ItemBuilder nulled = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName(" ");
         InventoryAdvancer.fillNulledInventory(nulled, mainMenu);
 
@@ -71,6 +78,7 @@ public class MarketCommand implements CommandExecutor {
                 item.setItemMeta(meta);
             }
             mainMenu.setItem(slot, item);
+            mainMenu.setItem(8, profile.build());
         }
         library.playLibrarySound(player, CustomSound.GUI_OPEN, 1f, 2f);
         player.openInventory(mainMenu);

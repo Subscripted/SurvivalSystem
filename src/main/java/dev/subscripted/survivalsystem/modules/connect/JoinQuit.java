@@ -1,5 +1,7 @@
 package dev.subscripted.survivalsystem.modules.connect;
 
+import dev.subscripted.survivalsystem.Main;
+import dev.subscripted.survivalsystem.modules.scoreboard.PlayerScoreboard;
 import dev.subscripted.survivalsystem.modules.vanish.VanishService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -22,14 +24,16 @@ public class JoinQuit implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        Main.getInstance().getCoins().setPlayerData(player.getUniqueId(), 0, 0);
         String playerName = player.getName();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (!service.isVanished(onlinePlayer)) {
-                System.out.println(service.isVanished(player) ? "Ja": "Nein");
                 onlinePlayer.sendMessage("§8[§a+§8] §7" + playerName);
             }
         }
         event.setJoinMessage(null);
+        PlayerScoreboard scoreboard = new PlayerScoreboard(Main.getInstance().getLpservice());
+        scoreboard.setPlayerScoreboard(player);
     }
 
     @EventHandler
@@ -38,11 +42,10 @@ public class JoinQuit implements Listener {
         String playerName = player.getName();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (!service.isVanished(onlinePlayer)) {
-                System.out.println(service.isVanished(player) ? "Ja": "Nein");
                 onlinePlayer.sendMessage("§8[§c-§8] §7" + playerName);
             }
         }
         event.setQuitMessage(null);
+        PlayerScoreboard.stopUpdate();
     }
-
 }

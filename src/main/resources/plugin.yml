@@ -18,4 +18,8 @@ commands:
   vanish:
   spawn:
   setspawn:
+  fly:
+    permission: survival.fly
+  ec:
+  gm:
 

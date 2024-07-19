@@ -18,7 +18,8 @@ public enum CustomSound {
     GLASS_GUI_BUILD(Sound.BLOCK_GLASS_PLACE),
     LOADING_FINISHED(Sound.BLOCK_LAVA_EXTINGUISH),
     LOBBY_HIDER_SWITCH(Sound.ENTITY_ARROW_HIT),
-    GUI_OPEN(Sound.BLOCK_CHEST_OPEN);
+    GUI_OPEN(Sound.BLOCK_CHEST_OPEN),
+    DEATH(Sound.ENTITY_WITHER_DEATH);
 
     private final Sound sound;
 
