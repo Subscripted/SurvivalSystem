@@ -28,7 +28,7 @@ public class PlayerScoreboard {
         int onlinePlayers = Bukkit.getOnlinePlayers().size();
 
         Scoreboard scoreboard = new ScoreboardBuilder("§x§B§F§A§3§B§A§lɴ§x§B§5§9§8§B§5§lᴏ§x§A§B§8§D§B§0§lᴠ§x§A§1§8§3§A§B§lɪ§x§9§7§7§8§A§6§lʙ§x§8§D§6§D§A§0§lᴇ§x§8§3§6§2§9§B§lꜱ§x§7§9§5§8§9§6§l.§x§6§F§4§D§9§1§lᴅ§x§6§5§4§2§8§C§lᴇ")
-                .addLine("line15", "§8✦§m" + "  ".repeat(20) + "§r§8✦", "", 14)
+                .addLine("line15", "§8✦§m" + "  ".repeat(30) + "§r§8✦", "", 14)
                 .addLine("line14", "     §x§E§2§F§8§F§A§lᴘ§x§E§2§F§8§F§A§lʟ§x§E§2§F§8§F§A§lᴀ§x§E§2§F§8§F§A§lʏ§x§E§2§F§8§F§A§lᴇ§x§E§2§F§8§F§A§lʀ", "", 13)
                 .addLine("line13", "        §8▪ §7ɴᴀᴍᴇ: ", "§x§C§0§E§8§E§8§l" + playername, 12)
                 .addLine("line12", "        §8▪ §7ʀᴀɴɢ: ", "Loading...", 11)
@@ -40,7 +40,7 @@ public class PlayerScoreboard {
                 .addLine("line6", " ", "", 5)
                 .addLine("line5", "     §x§E§2§F§8§F§A§lꜱ§x§E§2§F§8§F§A§lᴇ§x§E§2§F§8§F§A§lʀ§x§E§2§F§8§F§A§lᴠ§x§E§2§F§8§F§A§lᴇ§x§E§2§F§8§F§A§lʀ", "", 4)
                 .addLine("line4", "        §8▪ §7ᴏɴʟɪɴᴇ", "§x§C§0§E§8§E§8§l " + onlinePlayers, 3)
-                .addLine("line2", "§8✦§m" + "  ".repeat(20) + "§r§8✦", "", 2)
+                .addLine("line2", "§8✦§m" + "  ".repeat(30) + "§r§8✦", "", 2)
                 .addLine("line1", "             §8ɴᴏᴠɪʙᴇꜱ.ᴅᴇ ꜱᴜʀᴠɪᴠᴀʟ", "", 1)
                 .addLine("line0", " ", "", 0)
                 .build();

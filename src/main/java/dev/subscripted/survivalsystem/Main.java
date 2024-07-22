@@ -7,7 +7,12 @@ import dev.subscripted.survivalsystem.modules.connect.JoinQuit;
 import dev.subscripted.survivalsystem.modules.database.MySQL;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
 import dev.subscripted.survivalsystem.modules.death.PlayerDeathService;
-import dev.subscripted.survivalsystem.modules.ec.EnderChestCommand;
+import dev.subscripted.survivalsystem.modules.msg.MsgCommand;
+import dev.subscripted.survivalsystem.modules.msg.ReplyCommand;
+import dev.subscripted.survivalsystem.modules.playername.PlayernameService;
+import dev.subscripted.survivalsystem.modules.tablist.TablistService;
+import dev.subscripted.survivalsystem.modules.utilcommands.CraftCommand;
+import dev.subscripted.survivalsystem.modules.utilcommands.EnderChestCommand;
 import dev.subscripted.survivalsystem.modules.economy.BankCommand;
 import dev.subscripted.survivalsystem.modules.economy.BankUIListener;
 import dev.subscripted.survivalsystem.modules.economy.MarketCommand;
@@ -17,6 +22,7 @@ import dev.subscripted.survivalsystem.modules.fly.FlyService;
 import dev.subscripted.survivalsystem.modules.gamemode.GamemodeSwitcher;
 import dev.subscripted.survivalsystem.modules.spawn.SetSpawnCommand;
 import dev.subscripted.survivalsystem.modules.teleport.TeleportCommand;
+import dev.subscripted.survivalsystem.modules.utilcommands.SeeInventory;
 import dev.subscripted.survivalsystem.modules.vanish.VanishCommand;
 import dev.subscripted.survivalsystem.modules.vanish.VanishService;
 import dev.subscripted.survivalsystem.utils.BankPaymentSerivce;
@@ -31,6 +37,11 @@ public final class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
+
+    @Getter
+    PlayernameService playernameService;
+    @Getter
+    TablistService tablistService;
     @Getter
     LuckpermsService lpservice;
     @Getter
@@ -54,6 +65,8 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         lpservice = new LuckpermsService();
         service = new VanishService();
+        tablistService = new TablistService(instance);
+        playernameService = new PlayernameService(lpservice);
 
         getCommand("ec").setExecutor(new EnderChestCommand(library));
         getCommand("tpa").setExecutor(new TeleportCommand(instance, library));
@@ -64,6 +77,8 @@ public final class Main extends JavaPlugin {
         getCommand("tpadeny").setExecutor(new TeleportCommand(instance,library ));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(instance));
         getCommand("gm").setExecutor(new GamemodeSwitcher(library));
+        getCommand("craft").setExecutor(new CraftCommand(library));
+        getCommand("seeinventory").setExecutor(new SeeInventory(library));
 
         getCommand("tpa").setTabCompleter(new TeleportCommand(instance, library));
         getCommand("tp").setTabCompleter(new TeleportCommand(instance,library));
@@ -73,15 +88,18 @@ public final class Main extends JavaPlugin {
         getCommand("tpadeny").setTabCompleter(new TeleportCommand(instance, library));
         getCommand("gm").setTabCompleter(new GamemodeSwitcher(library));
 
+
         getCommand("market").setExecutor(new MarketCommand(library));
         getCommand("bankui").setExecutor(new BankCommand(coins));
         getCommand("vanish").setExecutor(new VanishCommand());
         getCommand("v").setExecutor(new VanishCommand());
         getCommand("fly").setExecutor(new FlyCommand(flyService, library));
+        getCommand("msg").setExecutor(new MsgCommand(instance));
+        getCommand("r").setExecutor(new ReplyCommand(instance));
         getServer().getPluginManager().registerEvents(new MarketListener(library), instance);
         getServer().getPluginManager().registerEvents(new BankUIListener(serivce, library), instance);
         getServer().getPluginManager().registerEvents(new Format(), instance);
-        getServer().getPluginManager().registerEvents(new JoinQuit(service), instance);
+        getServer().getPluginManager().registerEvents(new JoinQuit(service, tablistService, playernameService, lpservice), instance);
         getServer().getPluginManager().registerEvents(new WrongSyntax(library), instance);
         getServer().getPluginManager().registerEvents(new PlayerDeathService(library), instance);
 

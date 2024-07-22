@@ -22,4 +22,8 @@ commands:
     permission: survival.fly
   ec:
   gm:
+  craft:
+  seeinventory:
+  r:
+  msg:
 

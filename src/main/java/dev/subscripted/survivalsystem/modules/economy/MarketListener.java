@@ -143,7 +143,9 @@ public class MarketListener implements Listener {
     private void openSectionMenu(String section, Player player) {
         FileConfiguration config = getConfig();
         int size = config.getInt("sections." + section + ".size", 27);
+        String title = config.getString("sections." + section + ".title");
         Inventory sectionMenu = Bukkit.createInventory(null, size, section + " Markt");
+        System.out.println(title);
         ItemBuilder nulled = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName(" ");
         ItemBuilder goback = new ItemBuilder(Material.RED_BANNER).setDisplayName("§cZurück!");
         InventoryAdvancer.fillNulledInventory(nulled, sectionMenu);
@@ -298,15 +300,16 @@ public class MarketListener implements Listener {
                             player.getInventory().addItem(itemToAdd);
                             String itemName = formatMaterialName(item.getType());
                             library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
-                            player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast §e" + quantity + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins gekauft.");
+                            sendActionBar(player, Main.getInstance().getPrefix() + "§7Du hast §e" + quantity + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins gekauft.");
                         } else {
                             library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                            player.sendMessage(Main.getInstance().getPrefix() + "§cDein Inventar ist voll!");
+                            sendActionBar(player, Main.getInstance().getPrefix() + "§cDein Inventar ist voll!");
                             player.closeInventory();
                         }
                     } else {
                         library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                        player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genügend Coins um dieses Item zu kaufen");
+                        sendActionBar(player, Main.getInstance().getPrefix() + "§cDu hast nicht genügend Coins um dieses Item zu kaufen");
+                        player.closeInventory();
                     }
                 } else {
                     int totalPrice = sellPrice * quantity;
@@ -315,10 +318,11 @@ public class MarketListener implements Listener {
                         coins.addCoins(player.getUniqueId(), totalPrice);
                         String itemName = formatMaterialName(item.getType());
                         library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
-                        player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast §e" + quantity + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins verkauft.");
+                        sendActionBar(player, Main.getInstance().getPrefix() + "§7Du hast §e" + quantity + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins verkauft.");
                     } else {
                         library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                        player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Items zum Verkaufen!");
+                        sendActionBar(player, Main.getInstance().getPrefix() + "§cDu hast nicht genug Items zum Verkaufen!");
+                        player.closeInventory();
                     }
                 }
             }
@@ -347,20 +351,20 @@ public class MarketListener implements Listener {
                         splitAndAddItemsToInventory(player, item, quantityToBuy);
                         String itemName = formatMaterialName(item.getType());
                         library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
-                        player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast §e" + quantityToBuy + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins gekauft.");
+                        sendActionBar(player, Main.getInstance().getPrefix() + "§7Du hast §e" + quantityToBuy + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins gekauft.");
                     } else {
                         library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                        player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Coins um dieses Item zu kaufen.");
+                        sendActionBar(player, Main.getInstance().getPrefix() + "§cDu hast nicht genug Coins um dieses Item zu kaufen.");
                         player.closeInventory();
                     }
                 } else {
                     library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                    player.sendMessage(Main.getInstance().getPrefix() + "§cDein Inventar ist voll!");
+                    sendActionBar(player, Main.getInstance().getPrefix() + "§cDein Inventar ist voll!");
                     player.closeInventory();
                 }
             } else {
                 library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Coins, um dieses Item zu kaufen.");
+                sendActionBar(player, Main.getInstance().getPrefix() + "§cDu hast nicht genug Coins, um dieses Item zu kaufen.");
                 player.closeInventory();
             }
         } else {
@@ -371,10 +375,10 @@ public class MarketListener implements Listener {
                 coins.addCoins(player.getUniqueId(), totalPrice);
                 String itemName = formatMaterialName(item.getType());
                 library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
-                player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast §e" + quantityToSell + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins verkauft.");
+                sendActionBar(player, Main.getInstance().getPrefix() + "§7Du hast §e" + quantityToSell + " §e" + itemName + "§7 für §e" + CoinFormatter.formatCoins(totalPrice) + " §7Coins verkauft.");
             } else {
                 library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
-                player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Items zum Verkaufen!");
+                sendActionBar(player, Main.getInstance().getPrefix() + "§cDu hast nicht genug Items zum Verkaufen!");
                 player.closeInventory();
             }
         }
@@ -435,4 +439,9 @@ public class MarketListener implements Listener {
         }
         return formattedName.toString().trim();
     }
+
+    public void sendActionBar(Player player, String message) {
+        player.sendActionBar(message);
+    }
+
 }
