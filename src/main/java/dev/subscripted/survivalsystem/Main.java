@@ -7,12 +7,6 @@ import dev.subscripted.survivalsystem.modules.connect.JoinQuit;
 import dev.subscripted.survivalsystem.modules.database.MySQL;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
 import dev.subscripted.survivalsystem.modules.death.PlayerDeathService;
-import dev.subscripted.survivalsystem.modules.msg.MsgCommand;
-import dev.subscripted.survivalsystem.modules.msg.ReplyCommand;
-import dev.subscripted.survivalsystem.modules.playername.PlayernameService;
-import dev.subscripted.survivalsystem.modules.tablist.TablistService;
-import dev.subscripted.survivalsystem.modules.utilcommands.CraftCommand;
-import dev.subscripted.survivalsystem.modules.utilcommands.EnderChestCommand;
 import dev.subscripted.survivalsystem.modules.economy.BankCommand;
 import dev.subscripted.survivalsystem.modules.economy.BankUIListener;
 import dev.subscripted.survivalsystem.modules.economy.MarketCommand;
@@ -20,8 +14,14 @@ import dev.subscripted.survivalsystem.modules.economy.MarketListener;
 import dev.subscripted.survivalsystem.modules.fly.FlyCommand;
 import dev.subscripted.survivalsystem.modules.fly.FlyService;
 import dev.subscripted.survivalsystem.modules.gamemode.GamemodeSwitcher;
+import dev.subscripted.survivalsystem.modules.msg.MsgCommand;
+import dev.subscripted.survivalsystem.modules.msg.ReplyCommand;
+import dev.subscripted.survivalsystem.modules.playername.PlayernameService;
 import dev.subscripted.survivalsystem.modules.spawn.SetSpawnCommand;
+import dev.subscripted.survivalsystem.modules.tablist.TablistService;
 import dev.subscripted.survivalsystem.modules.teleport.TeleportCommand;
+import dev.subscripted.survivalsystem.modules.utilcommands.CraftCommand;
+import dev.subscripted.survivalsystem.modules.utilcommands.EnderChestCommand;
 import dev.subscripted.survivalsystem.modules.utilcommands.SeeInventory;
 import dev.subscripted.survivalsystem.modules.vanish.VanishCommand;
 import dev.subscripted.survivalsystem.modules.vanish.VanishService;
@@ -59,8 +59,10 @@ public final class Main extends JavaPlugin {
     @Getter
     VanishService service;
 
+
     @Override
     public void onEnable() {
+        String prefixfarbe = "§x§8§D§6§D§A§0§l";
         instance = this;
         saveDefaultConfig();
         lpservice = new LuckpermsService();

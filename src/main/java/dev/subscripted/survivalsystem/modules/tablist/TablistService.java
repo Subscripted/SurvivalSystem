@@ -26,6 +26,7 @@ public class TablistService {
     final DecimalFormat TPS_FORMAT = new DecimalFormat("0.00");
     final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy");
     final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm 'Uhr'");
+    final SimpleDateFormat TIME_FORMAT_WITH_SECONDS = new SimpleDateFormat("HH:mm:ss 'Uhr'");
 
     public TablistService(Main plugin) {
         this.plugin = plugin;
@@ -44,7 +45,7 @@ public class TablistService {
         header.add(" §x§B§F§A§3§B§A§lɴ§x§B§5§9§8§B§5§lᴏ§x§A§B§8§D§B§0§lᴠ§x§A§1§8§3§A§B§lɪ§x§9§7§7§8§A§6§lʙ§x§8§D§6§D§A§0§lᴇ§x§8§3§6§2§9§B§lꜱ§x§7§9§5§8§9§6§l.§x§6§F§4§D§9§1§lᴅ§x§6§5§4§2§8§C§lᴇ ");
         header.add(" ");
         header.add("§f§lWillkommen §e" + playername);
-        header.add("§7Datum: §e" + getFormattedDate() + " §7Uhrzeit: §e" + getFormattedTime());
+        header.add("§7Datum: §e" + getFormattedDate() + " §8│" + " §7Uhrzeit: §e" + getFormattedTime());
         header.add(" ");
         header.add("§8✦§m" + "  ".repeat(40) + "§r§8✦");
 
@@ -120,10 +121,18 @@ public class TablistService {
         return DATE_FORMAT.format(new Date());
     }
 
-    private String getFormattedTime() {
+    public String getFormattedTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.HOUR_OF_DAY, 2);
         return TIME_FORMAT.format(calendar.getTime());
+    }
+
+
+
+    public String getFormattedTimeWithSeconds() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        return TIME_FORMAT_WITH_SECONDS.format(calendar.getTime());
     }
 }
