@@ -13,7 +13,7 @@ commands:
   tpaaccept:
   tpadeny:
   market:
-  bankui:
+  bank:
   v:
   vanish:
   spawn:
@@ -26,4 +26,5 @@ commands:
   seeinventory:
   r:
   msg:
+  rtp:
 

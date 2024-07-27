@@ -19,6 +19,7 @@ public enum CustomSound {
     LOADING_FINISHED(Sound.BLOCK_LAVA_EXTINGUISH),
     LOBBY_HIDER_SWITCH(Sound.ENTITY_ARROW_HIT),
     GUI_OPEN(Sound.BLOCK_CHEST_OPEN),
+    WARNING(Sound.ENTITY_WITHER_AMBIENT),
     DEATH(Sound.ENTITY_WITHER_DEATH);
 
     private final Sound sound;

@@ -7,6 +7,7 @@ import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.context.ContextSet;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -31,5 +32,18 @@ public class LuckpermsService {
         }
         return prefix;
 
+    }
+
+    public void setDefaultGroup(Player player) {
+
+        User user = api.getUserManager().getUser(player.getUniqueId());
+        user.setPrimaryGroup("default");
+
+        api.getUserManager().saveUser(user);
+    }
+
+    public boolean hasDefaultGroup(Player player) {
+        User user = api.getUserManager().getUser(player.getUniqueId());
+        return user.getPrimaryGroup().equals("default");
     }
 }

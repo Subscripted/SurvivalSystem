@@ -21,13 +21,11 @@ public class VanishService {
     public void setVanished(Player player) {
         teamlerInVanish.add(player.getUniqueId());
         player.setInvisible(true);
-        updateVisibility(player);
     }
 
     public void removeFromVanish(Player player) {
         teamlerInVanish.remove(player.getUniqueId());
         player.setInvisible(false);
-        updateVisibility(player);
     }
 
     private void updateVisibility(Player player) {

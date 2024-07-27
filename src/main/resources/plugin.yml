@@ -13,7 +13,7 @@ commands:
   tpaaccept:
   tpadeny:
   market:
-  bankui:
+  bank:
   v:
   vanish:
   spawn:

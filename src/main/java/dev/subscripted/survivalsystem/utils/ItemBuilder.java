@@ -179,21 +179,22 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setSkullTexture(String texture) {
+    public ItemBuilder setSkullTexture(String textureBase64) {
         if (item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) {
             SkullMeta meta = (SkullMeta) item.getItemMeta();
-            meta.setOwningPlayer(null);
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            byte[] encodeData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"", texture).getBytes());
-            profile.getProperties().put("textures", new Property("textures", new String(encodeData)));
-            Field profileField;
+            meta.setOwningPlayer(null); // Nullify any existing owner
+
+            GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+            profile.getProperties().put("textures", new Property("textures", textureBase64));
+
             try {
-                profileField = meta.getClass().getDeclaredField("profile");
+                Field profileField = meta.getClass().getDeclaredField("profile");
                 profileField.setAccessible(true);
                 profileField.set(meta, profile);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
+
             item.setItemMeta(meta);
         }
         return this;

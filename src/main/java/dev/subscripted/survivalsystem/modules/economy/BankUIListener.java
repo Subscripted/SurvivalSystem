@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.UUID;
 
@@ -24,6 +25,8 @@ public class BankUIListener implements Listener {
     final BankPaymentSerivce service;
     final SoundLibrary library;
 
+    private static final int DEPOSIT_SLOT = 11;
+    private static final int WITHDRAW_SLOT = 15;
 
     public BankUIListener(BankPaymentSerivce service, SoundLibrary library) {
         this.service = service;
@@ -44,16 +47,22 @@ public class BankUIListener implements Listener {
 
         event.setCancelled(true);
 
-        if (clickedItem.getType() == Material.LIME_SHULKER_BOX) {
-            player.closeInventory();
-            service.addToAddingMoney(player);
-            player.sendMessage(Main.getInstance().getPrefix() + "§aBitte gib den Betrag ein, den du einzahlen möchtest:");
-            library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
-        } else if (clickedItem.getType() == Material.RED_SHULKER_BOX) {
-            player.closeInventory();
-            service.addToRemovingMoney(player);
-            player.sendMessage(Main.getInstance().getPrefix() + "§cBitte gib den Betrag ein, den du abheben möchtest:");
-            library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
+        int slot = event.getSlot();
+
+        if (slot == DEPOSIT_SLOT) {
+            if (clickedItem.getType() == Material.PLAYER_HEAD) {
+                player.closeInventory();
+                service.addToAddingMoney(player);
+                player.sendMessage(Main.getInstance().getPrefix() + "§aBitte gib den Betrag ein, den du einzahlen möchtest:");
+                library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
+            }
+        } else if (slot == WITHDRAW_SLOT) {
+            if (clickedItem.getType() == Material.PLAYER_HEAD) {
+                player.closeInventory();
+                service.addToRemovingMoney(player);
+                player.sendMessage(Main.getInstance().getPrefix() + "§cBitte gib den Betrag ein, den du abheben möchtest:");
+                library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
+            }
         }
     }
 
@@ -64,7 +73,6 @@ public class BankUIListener implements Listener {
 
         if (service.isAddingMoney(player)) {
             event.setCancelled(true);
-            event.setMessage("");
             service.removeFromAddingMoney(player);
 
             try {
@@ -91,12 +99,17 @@ public class BankUIListener implements Listener {
     private void processDeposit(Player player, int amount) {
         Coins coins = Main.getInstance().getCoins();
         UUID playerUID = player.getUniqueId();
-        String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
+
+        // Formatierung der Beträge
         String coinspayedin = CoinFormatter.formatCoins(amount);
 
         if (coins.getCoins(playerUID) >= amount) {
             coins.removeCoins(playerUID, amount);
             coins.depositToBank(playerUID, amount);
+
+            // Neuer Kontostand nach der Einzahlung
+            String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
+
             player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast erfolgreich §e" + coinspayedin + "€ §7auf dein Bankkonto eingezahlt.");
             player.sendMessage(Main.getInstance().getPrefix() + "§7Dein Kontostand beträgt nun §e" + UserBankCoins + "€");
             library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
@@ -106,21 +119,28 @@ public class BankUIListener implements Listener {
         }
     }
 
+
     private void processWithdrawal(Player player, int amount) {
         Coins coins = Main.getInstance().getCoins();
         UUID playerUID = player.getUniqueId();
+
+        // Formatierung der Beträge
         String coinspayedin = CoinFormatter.formatCoins(amount);
-        String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
 
         if (coins.getBankCoins(playerUID) >= amount) {
             coins.withdrawFromBank(playerUID, amount);
             coins.addCoins(playerUID, amount);
+
+            // Neuer Kontostand nach der Abhebung
+            String UserBankCoins = CoinFormatter.formatCoins(coins.getBankCoins(playerUID));
+
             player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast erfolgreich §e" + coinspayedin + "€ §7von deinem Bankkonto abgehoben.");
             player.sendMessage(Main.getInstance().getPrefix() + "§7Dein Kontostand beträgt nun §e" + UserBankCoins + "€");
             library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 1f);
         } else {
-            player.sendMessage("§cDu hast nicht genug Geld auf deinem Bankkonto, um diesen Betrag abzuheben.");
+            player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug Geld auf deinem Bankkonto, um diesen Betrag abzuheben.");
             library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
         }
     }
+
 }
