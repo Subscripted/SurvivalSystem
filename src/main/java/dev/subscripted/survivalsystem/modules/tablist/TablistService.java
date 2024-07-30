@@ -2,6 +2,7 @@ package dev.subscripted.survivalsystem.modules.tablist;
 
 import dev.subscripted.survivalsystem.Main;
 import dev.subscripted.survivalsystem.modules.api.LuckpermsService;
+import dev.subscripted.survivalsystem.modules.clans.manager.ClanManager;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
@@ -11,11 +12,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TablistService {
@@ -27,9 +24,11 @@ public class TablistService {
     final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy");
     final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm 'Uhr'");
     final SimpleDateFormat TIME_FORMAT_WITH_SECONDS = new SimpleDateFormat("HH:mm:ss 'Uhr'");
+    final ClanManager clanManager;
 
-    public TablistService(Main plugin) {
+    public TablistService(Main plugin, ClanManager clanManager) {
         this.plugin = plugin;
+        this.clanManager = clanManager;
         this.luckpermsService = new LuckpermsService();
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
         TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -63,11 +62,16 @@ public class TablistService {
         player.setPlayerListFooter(footerString);
     }
 
+    @SneakyThrows
     private void updatePlayerListNames() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             String rank = luckpermsService.getPlayerRang(p.getUniqueId()).replace("&", "§");
             int ping = p.getPing();
-            p.setPlayerListName(rank + " §8•§7 " + p.getName() + " §a" + ping);
+            if (clanManager.isClanMember(p.getUniqueId())) {
+                p.setPlayerListName("§8[" + clanManager.getClanName(p.getUniqueId()).replace("&", "§") + "§8] " + rank + " §8•§7 " + p.getName() + " §a" + ping);
+            } else {
+                p.setPlayerListName(rank + " §8•§7 " + p.getName() + " §a" + ping);
+            }
         }
     }
 

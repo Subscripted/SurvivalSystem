@@ -6,6 +6,10 @@ import dev.subscripted.survivalsystem.modules.api.cooldownmanager.Events;
 import dev.subscripted.survivalsystem.modules.chat.ChatFilter;
 import dev.subscripted.survivalsystem.modules.chat.Format;
 import dev.subscripted.survivalsystem.modules.chat.WrongSyntax;
+import dev.subscripted.survivalsystem.modules.clans.commands.ClanCommand;
+import dev.subscripted.survivalsystem.modules.clans.events.ClanMenuInteractions;
+import dev.subscripted.survivalsystem.modules.clans.gui.ClanMenus;
+import dev.subscripted.survivalsystem.modules.clans.manager.ClanManager;
 import dev.subscripted.survivalsystem.modules.connect.JoinQuit;
 import dev.subscripted.survivalsystem.modules.database.MySQL;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
@@ -61,6 +65,7 @@ public final class Main extends JavaPlugin {
     CooldownManager cooldownManager;
 
 
+
     @Override
     public void onEnable() {
 
@@ -77,10 +82,12 @@ public final class Main extends JavaPlugin {
         String prefixfarbe = "§x§8§D§6§D§A§0§l";
         instance = this;
         saveDefaultConfig();
+        ClanManager manager = new ClanManager(mySQL);
         lpservice = new LuckpermsService();
         service = new VanishService();
-        tablistService = new TablistService(instance);
+        tablistService = new TablistService(instance, manager);
         cooldownManager = new CooldownManager(instance);
+
 
 
         getLogger().info("\n" +
@@ -120,6 +127,7 @@ public final class Main extends JavaPlugin {
         getCommand("fly").setExecutor(new FlyCommand(flyService, library));
         getCommand("msg").setExecutor(new MsgCommand(instance));
         getCommand("r").setExecutor(new ReplyCommand(instance));
+        getCommand("clan").setExecutor(new ClanCommand(manager, new ClanMenus(mySQL, manager), library));
 
         getLogger().info("\n" +
                 "[]=====================================================[] \n" +
@@ -136,18 +144,21 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MarketListener(library), instance);
         getServer().getPluginManager().registerEvents(new BankUIListener(serivce, library), instance);
         getServer().getPluginManager().registerEvents(new Format(), instance);
-        getServer().getPluginManager().registerEvents(new JoinQuit(service, tablistService, lpservice), instance);
+        getServer().getPluginManager().registerEvents(new JoinQuit(service, tablistService, lpservice, manager), instance);
         getServer().getPluginManager().registerEvents(new WrongSyntax(library), instance);
         getServer().getPluginManager().registerEvents(new PlayerDeathService(library), instance);
         getServer().getPluginManager().registerEvents(new ChatFilter(library), instance);
         getServer().getPluginManager().registerEvents(new Events(cooldownManager), instance);
+        getServer().getPluginManager().registerEvents(new ClanMenuInteractions(manager, library, new ClanMenus(mySQL, manager)), instance);
 
     }
 
     @Override
     public void onDisable() {
         for (Player p : getServer().getOnlinePlayers()) {
-            p.kickPlayer(Main.getInstance().getPrefix() + "§eServer Restart");
+            p.kickPlayer(Main.getInstance().getPrefix() + "§eSurvival Reload\n" +
+                    " \n" +
+                    "§7Webseite: §eNovibes.de §8| §eNovibes Netzwerk");
         }
         mySQL.close();
     }

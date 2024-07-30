@@ -20,6 +20,8 @@ public enum CustomSound {
     LOBBY_HIDER_SWITCH(Sound.ENTITY_ARROW_HIT),
     GUI_OPEN(Sound.BLOCK_CHEST_OPEN),
     WARNING(Sound.ENTITY_WITHER_AMBIENT),
+    CLAN_OPEN(Sound.ITEM_GOAT_HORN_SOUND_7),
+    PAGE_TURN(Sound.ITEM_BOOK_PAGE_TURN),
     DEATH(Sound.ENTITY_WITHER_DEATH);
 
     private final Sound sound;
