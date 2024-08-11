@@ -27,4 +27,6 @@ commands:
   r:
   msg:
   clan:
+  command:
+  playtime:
 

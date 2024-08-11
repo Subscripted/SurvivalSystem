@@ -1,18 +1,19 @@
 package dev.subscripted.survivalsystem.modules.clans.manager;
 
+import dev.subscripted.survivalsystem.Main;
 import dev.subscripted.survivalsystem.modules.database.MySQL;
+import dev.subscripted.survivalsystem.utils.UUIDFetcher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,6 +22,8 @@ import java.util.concurrent.ExecutionException;
 public class ClanManager {
 
     final MySQL mySQL;
+    final Set<UUID> addingMoney = new HashSet<>();
+    final Set<UUID> removingMoney = new HashSet<>();
 
     public void createClan(UUID ownerUUID, String clanPrefix, String clanName) throws SQLException, ExecutionException, InterruptedException {
         String createClanQuery = "INSERT INTO Clans (ClanPrefix, ClanName, OwnerUUID, ClanLevel) VALUES (?, ?, ?, ?)";
@@ -74,17 +77,15 @@ public class ClanManager {
         }
     }
 
+    @SneakyThrows
     public void removeMembersFromClan(String clanPrefix) throws SQLException {
         String removeMembersQuery = "DELETE FROM ClanMembers WHERE ClanPrefix = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(removeMembersQuery)) {
             stmt.setString(1, clanPrefix);
             stmt.executeUpdate();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
+
 
     public String getMemberClan(UUID memberUUID) throws SQLException, ExecutionException, InterruptedException {
         String getMemberClanQuery = "SELECT ClanPrefix FROM ClanMembers WHERE MemberUUID = ?";
@@ -98,31 +99,30 @@ public class ClanManager {
         return null;
     }
 
-    public boolean isMemberOfClan(UUID memberUUID) throws SQLException {
-        String isMemberQuery = "SELECT ClanPrefix FROM ClanMembers WHERE MemberUUID = ?";
+    @SneakyThrows
+    public boolean isMemberOfClan(UUID memberUUID, String clanPrefix) throws SQLException {
+        String isMemberQuery = "SELECT 1 FROM ClanMembers WHERE MemberUUID = ? AND ClanPrefix = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(isMemberQuery)) {
             stmt.setString(1, memberUUID.toString());
+            stmt.setString(2, clanPrefix);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public boolean isOwnerOfClan(UUID ownerUUID) throws SQLException {
-        String isOwnerQuery = "SELECT ClanPrefix FROM Clans WHERE OwnerUUID = ?";
-        try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(isOwnerQuery)) {
+    @SneakyThrows
+    public boolean isOwnerOfClan(UUID ownerUUID, String clanprefix) throws SQLException {
+        String isMemberQuery = "SELECT 1 FROM Clans WHERE OwnerUUID = ? AND ClanPrefix = ?";
+        try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(isMemberQuery)) {
             stmt.setString(1, ownerUUID.toString());
+            stmt.setString(2, clanprefix);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public List<UUID> getAllMembersAsList(String clanPrefix) throws SQLException, ExecutionException, InterruptedException {
+    @SneakyThrows
+    public List<UUID> getAllMembersAsList(String clanPrefix) {
         List<UUID> members = new ArrayList<>();
         String getMembersQuery = "SELECT MemberUUID FROM ClanMembers WHERE ClanPrefix = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(getMembersQuery)) {
@@ -135,7 +135,8 @@ public class ClanManager {
         return members;
     }
 
-    public boolean clanExists(String clanPrefix) throws SQLException, ExecutionException, InterruptedException {
+    @SneakyThrows
+    public boolean clanExists(String clanPrefix) {
         String clanExistsQuery = "SELECT ClanName FROM Clans WHERE ClanPrefix = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(clanExistsQuery)) {
             stmt.setString(1, clanPrefix);
@@ -144,19 +145,17 @@ public class ClanManager {
         }
     }
 
+    @SneakyThrows
     public boolean isClanNameTaken(String clanName) throws SQLException {
         String clanNameTakenQuery = "SELECT ClanName FROM Clans WHERE ClanName = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(clanNameTakenQuery)) {
             stmt.setString(1, clanName);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
+    @SneakyThrows
     public String getClanNameByPrefix(String clanPrefix) throws SQLException {
         String getClanNameQuery = "SELECT ClanName FROM Clans WHERE ClanPrefix = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(getClanNameQuery)) {
@@ -165,15 +164,12 @@ public class ClanManager {
             if (rs.next()) {
                 return rs.getString("ClanName");
             }
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public String getClanPrefix(UUID memberUUID) throws SQLException, ExecutionException, InterruptedException {
+    @SneakyThrows
+    public String getClanPrefix(UUID memberUUID){
         String getClanPrefixQuery = "SELECT ClanPrefix FROM ClanMembers WHERE MemberUUID = ?";
         try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(getClanPrefixQuery)) {
             stmt.setString(1, memberUUID.toString());
@@ -185,7 +181,8 @@ public class ClanManager {
         return null;
     }
 
-    public String getClanName(UUID memberUUID) throws SQLException, ExecutionException, InterruptedException {
+    @SneakyThrows
+    public String getClanName(UUID memberUUID){
         String clanPrefix = getClanPrefix(memberUUID);
         if (clanPrefix != null) {
             return getClanNameByPrefix(clanPrefix);
@@ -193,7 +190,7 @@ public class ClanManager {
         return null;
     }
 
-    public List<UUID> getClanMembers(String clanPrefix) throws SQLException, ExecutionException, InterruptedException {
+    public List<UUID> getClanMembers(String clanPrefix) {
         return getAllMembersAsList(clanPrefix);
     }
 
@@ -299,5 +296,97 @@ public class ClanManager {
             stmt.executeUpdate();
         }
     }
+
+    public void setClanLevel(String clanPrefix, int newLevel) throws SQLException, ExecutionException, InterruptedException {
+        String setEcoQuery = "UPDATE Clans SET ClanLevel = ? WHERE ClanPrefix = ?";
+        try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(setEcoQuery)) {
+            stmt.setInt(1, newLevel);
+            stmt.setString(2, clanPrefix);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void setClanToNextLevel(String clanPrefix) throws SQLException, ExecutionException, InterruptedException {
+        int currentLevel = getClanLevel(clanPrefix);
+        int nextLevel = currentLevel + 1;
+        String updateLevelQuery = "UPDATE Clans SET ClanLevel = ? WHERE ClanPrefix = ?";
+        try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(updateLevelQuery)) {
+            stmt.setInt(1, nextLevel);
+            stmt.setString(2, clanPrefix);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void addMoneyToClanBank(String clanPrefix, int amount) throws SQLException, ExecutionException, InterruptedException {
+        int currentEco = getClanEco(clanPrefix);
+        int newEco = currentEco + amount;
+        setClanEco(clanPrefix, newEco);
+    }
+
+    public void removeMoneyFromClanBank(String clanPrefix, int amount) throws SQLException, ExecutionException, InterruptedException {
+        int currentEco = getClanEco(clanPrefix);
+        int newEco = currentEco - amount;
+        setClanEco(clanPrefix, newEco);
+    }
+
+    @SneakyThrows
+    public void grantToClanOwner(UUID newOwnerUUID, String clanPrefix) throws SQLException, ExecutionException, InterruptedException {
+        if (!clanExists(clanPrefix)) {
+            System.out.println("Der Clan mit dem Prefix " + clanPrefix + " existiert nicht.");
+            return;
+        }
+
+        if (!isMemberOfClan(newOwnerUUID, clanPrefix)) {
+            System.out.println("Der Benutzer mit UUID " + newOwnerUUID + " ist kein Mitglied des Clans " + clanPrefix + ".");
+            return;
+        }
+
+        UUID currentOwnerUUID = getClanOwner(clanPrefix);
+        if (currentOwnerUUID == null) {
+            System.out.println("Der Clan " + clanPrefix + " hat keinen aktuellen Besitzer.");
+            return;
+        }
+        String updateOwnerQuery = "UPDATE Clans SET OwnerUUID = ? WHERE ClanPrefix = ?";
+        try (PreparedStatement stmt = mySQL.getConnection().get().prepareStatement(updateOwnerQuery)) {
+            stmt.setString(1, newOwnerUUID.toString());
+            stmt.setString(2, clanPrefix);
+            stmt.executeUpdate();
+        }
+    }
+
+
+    public boolean isAddingMoney(Player player) {
+        return addingMoney.contains(player.getUniqueId());
+    }
+
+    public boolean isRemovingMoney(Player player) {
+        return removingMoney.contains(player.getUniqueId());
+    }
+
+    public void addToAddingMoney(Player player) {
+        addingMoney.add(player.getUniqueId());
+    }
+
+    public void addToRemovingMoney(Player player) {
+        removingMoney.add(player.getUniqueId());
+    }
+
+    public void removeFromAddingMoney(Player player) {
+        addingMoney.remove(player.getUniqueId());
+    }
+
+    public void removeFromRemovingMoney(Player player) {
+        removingMoney.remove(player.getUniqueId());
+    }
+
+    public String getUUID(String playername) {
+        Player player = Main.getInstance().getServer().getPlayer(playername);
+        if (player != null) {
+            return player.getUniqueId().toString();
+        } else {
+            return UUIDFetcher.getUUID(playername).toString();
+        }
+    }
 }
+
 

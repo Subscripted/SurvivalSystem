@@ -8,6 +8,8 @@ import dev.subscripted.survivalsystem.modules.chat.Format;
 import dev.subscripted.survivalsystem.modules.chat.WrongSyntax;
 import dev.subscripted.survivalsystem.modules.clans.commands.ClanCommand;
 import dev.subscripted.survivalsystem.modules.clans.events.ClanMenuInteractions;
+import dev.subscripted.survivalsystem.modules.clans.events.EntityDeath;
+import dev.subscripted.survivalsystem.modules.clans.events.LevelAbs;
 import dev.subscripted.survivalsystem.modules.clans.gui.ClanMenus;
 import dev.subscripted.survivalsystem.modules.clans.manager.ClanManager;
 import dev.subscripted.survivalsystem.modules.connect.JoinQuit;
@@ -23,6 +25,10 @@ import dev.subscripted.survivalsystem.modules.fly.FlyService;
 import dev.subscripted.survivalsystem.modules.gamemode.GamemodeSwitcher;
 import dev.subscripted.survivalsystem.modules.msg.MsgCommand;
 import dev.subscripted.survivalsystem.modules.msg.ReplyCommand;
+import dev.subscripted.survivalsystem.modules.playertime.PlayerTimeCommand;
+import dev.subscripted.survivalsystem.modules.playertime.PlaytimeListener;
+import dev.subscripted.survivalsystem.modules.playertime.PlaytimeManager;
+import dev.subscripted.survivalsystem.modules.scoreboard.PlayerScoreboard;
 import dev.subscripted.survivalsystem.modules.spawn.SetSpawnCommand;
 import dev.subscripted.survivalsystem.modules.tablist.TablistService;
 import dev.subscripted.survivalsystem.modules.teleport.TeleportCommand;
@@ -38,36 +44,39 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
-
     @Getter
     private static Main instance;
 
-
     @Getter
-    TablistService tablistService;
+    private TablistService tablistService;
     @Getter
-    LuckpermsService lpservice;
+    private LuckpermsService lpservice;
     @Getter
-    FlyService flyService = new FlyService();
+    private FlyService flyService;
     @Getter
-    MySQL mySQL = new MySQL();
+    private MySQL mySQL;
     @Getter
-    Coins coins = new Coins(mySQL);
+    private Coins coins;
     @Getter
-    SoundLibrary library = new SoundLibrary();
+    private SoundLibrary library;
     @Getter
-    BankPaymentSerivce serivce = new BankPaymentSerivce();
+    private BankPaymentSerivce bankPaymentService;
     @Getter
-    String prefix = "§8» §8| §x§B§F§A§3§B§A§lN§x§B§0§9§3§B§2§lo§x§A§1§8§3§A§B§lv§x§9§2§7§3§A§3§li§x§8§3§6§2§9§B§lb§x§7§4§5§2§9§4§le§x§6§5§4§2§8§C§ls §8» §r";
+    private String prefix = "§8» §8| §x§B§F§A§3§B§A§lN§x§B§0§9§3§B§2§lo§x§A§1§8§3§A§B§lv§x§9§2§7§3§A§3§li§x§8§3§6§2§9§B§lb§x§7§4§5§2§9§4§le§x§6§5§4§2§8§C§ls §8» §r";
     @Getter
-    VanishService service;
+    private VanishService vanishService;
     @Getter
-    CooldownManager cooldownManager;
-
-
+    private CooldownManager cooldownManager;
+    @Getter
+    private ClanManager clanManager;
+    @Getter
+    PlayerScoreboard playerScoreboard;
+    @Getter
+    PlaytimeManager playtimeManager;
 
     @Override
     public void onEnable() {
+
 
         getLogger().info("\n" +
                 "[]=====================================================[] \n" +
@@ -79,16 +88,27 @@ public final class Main extends JavaPlugin {
                 "                                                 \n" +
                 "[]=====================================================[] \n");
 
-        String prefixfarbe = "§x§8§D§6§D§A§0§l";
         instance = this;
         saveDefaultConfig();
-        ClanManager manager = new ClanManager(mySQL);
+        playtimeManager = new PlaytimeManager(getDataFolder());
+        new PlaytimeListener(this, playtimeManager);
+        mySQL = new MySQL();
+        coins = new Coins(mySQL);
+        library = new SoundLibrary();
+        bankPaymentService = new BankPaymentSerivce();
+        flyService = new FlyService();
+        vanishService = new VanishService();
         lpservice = new LuckpermsService();
-        service = new VanishService();
-        tablistService = new TablistService(instance, manager);
         cooldownManager = new CooldownManager(instance);
+        clanManager = new ClanManager(mySQL);
+
+        tablistService = new TablistService(instance, clanManager);
+        playerScoreboard = new PlayerScoreboard(lpservice, clanManager, playtimeManager);
 
 
+        for (Player p : getServer().getOnlinePlayers()) {
+            playtimeManager.loadPlaytime(p);
+        }
 
         getLogger().info("\n" +
                 "[]=====================================================[] \n" +
@@ -107,14 +127,14 @@ public final class Main extends JavaPlugin {
         getCommand("tp").setExecutor(new TeleportCommand(instance, library));
         getCommand("tpahere").setExecutor(new TeleportCommand(instance, library));
         getCommand("tphere").setExecutor(new TeleportCommand(instance, library));
-        getCommand("tpaaccept").setExecutor(new TeleportCommand(instance,library ));
-        getCommand("tpadeny").setExecutor(new TeleportCommand(instance,library ));
+        getCommand("tpaaccept").setExecutor(new TeleportCommand(instance, library));
+        getCommand("tpadeny").setExecutor(new TeleportCommand(instance, library));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(instance));
         getCommand("gm").setExecutor(new GamemodeSwitcher(library));
         getCommand("craft").setExecutor(new CraftCommand(library));
         getCommand("seeinventory").setExecutor(new SeeInventory(library));
         getCommand("tpa").setTabCompleter(new TeleportCommand(instance, library));
-        getCommand("tp").setTabCompleter(new TeleportCommand(instance,library));
+        getCommand("tp").setTabCompleter(new TeleportCommand(instance, library));
         getCommand("tpahere").setTabCompleter(new TeleportCommand(instance, library));
         getCommand("tphere").setTabCompleter(new TeleportCommand(instance, library));
         getCommand("tpaaccept").setTabCompleter(new TeleportCommand(instance, library));
@@ -127,7 +147,9 @@ public final class Main extends JavaPlugin {
         getCommand("fly").setExecutor(new FlyCommand(flyService, library));
         getCommand("msg").setExecutor(new MsgCommand(instance));
         getCommand("r").setExecutor(new ReplyCommand(instance));
-        getCommand("clan").setExecutor(new ClanCommand(manager, new ClanMenus(mySQL, manager), library));
+        getCommand("command").setExecutor(new TestCommand(library));
+        getCommand("playtime").setExecutor(new PlayerTimeCommand(playtimeManager));
+        getCommand("clan").setExecutor(new ClanCommand(clanManager, new ClanMenus(mySQL, clanManager), library));
 
         getLogger().info("\n" +
                 "[]=====================================================[] \n" +
@@ -142,24 +164,35 @@ public final class Main extends JavaPlugin {
                 "[]=====================================================[] \n");
 
         getServer().getPluginManager().registerEvents(new MarketListener(library), instance);
-        getServer().getPluginManager().registerEvents(new BankUIListener(serivce, library), instance);
-        getServer().getPluginManager().registerEvents(new Format(), instance);
-        getServer().getPluginManager().registerEvents(new JoinQuit(service, tablistService, lpservice, manager), instance);
+        getServer().getPluginManager().registerEvents(new BankUIListener(bankPaymentService, library, clanManager, new ClanMenus(mySQL, clanManager)), instance);
+        getServer().getPluginManager().registerEvents(new Format(clanManager), instance);
+        getServer().getPluginManager().registerEvents(new JoinQuit(vanishService, tablistService, lpservice, clanManager, playtimeManager), instance);
         getServer().getPluginManager().registerEvents(new WrongSyntax(library), instance);
         getServer().getPluginManager().registerEvents(new PlayerDeathService(library), instance);
         getServer().getPluginManager().registerEvents(new ChatFilter(library), instance);
         getServer().getPluginManager().registerEvents(new Events(cooldownManager), instance);
-        getServer().getPluginManager().registerEvents(new ClanMenuInteractions(manager, library, new ClanMenus(mySQL, manager)), instance);
+        getServer().getPluginManager().registerEvents(new ClanMenuInteractions(clanManager, library, new ClanMenus(mySQL, clanManager)), instance);
+        getServer().getPluginManager().registerEvents(new EntityDeath(library), instance);
+        getServer().getPluginManager().registerEvents(new LevelAbs(library, clanManager), instance);
 
     }
 
     @Override
     public void onDisable() {
         for (Player p : getServer().getOnlinePlayers()) {
-            p.kickPlayer(Main.getInstance().getPrefix() + "§eSurvival Reload\n" +
-                    " \n" +
-                    "§7Webseite: §eNovibes.de §8| §eNovibes Netzwerk");
+            try {
+                playtimeManager.savePlaytime(p); // Speichere die Spielzeit
+            } catch (Exception e) {
+                getLogger().severe("Fehler beim Speichern der Spielzeit für " + p.getName() + ": " + e.getMessage());
+            }
+
+            if (!p.isOp()) {
+                p.kickPlayer(Main.getInstance().getPrefix() + "§eSurvival Reload\n" +
+                        " \n" +
+                        "§7Webseite: §eNovibes.de §8| §eNovibes Netzwerk");
+            }
         }
-        mySQL.close();
+        mySQL.close(); // Schließe die Datenbankverbindung
     }
 }
+

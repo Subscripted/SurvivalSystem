@@ -61,6 +61,8 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                 sendActionBar(player, "");
             }
             sendActionBar(player, "");
+        }else {
+            sendActionBar(player, "");
         }
 
         String subcommand = args[0].toLowerCase();
@@ -79,11 +81,6 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                             return true;
                         }
 
-                        if (!isValidClanPrefix(clanPrefix) || !isValidClanName(clanName)) {
-                            sendActionBar(player, "§7Der Clan-Prefix und Name dürfen keine isolierten Zahlen enthalten!");
-                            library.playLibrarySound(player, CustomSound.NO_PERMISSION, 1f, 1f);
-                            return true;
-                        }
 
                         if (manager.clanExists(clanPrefix)) {
                             sendActionBar(player, "§7Ein Clan mit dem Prefix §r" + clanPrefix + " §7existiert bereits!");
@@ -138,7 +135,7 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                         String clanName = manager.getClanName(playerUUID);
 
                         if (currentClan != null && currentClan.equals(clanPrefix)) {
-                            if (manager.isOwnerOfClan(playerUUID)) {
+                            if (manager.isOwnerOfClan(playerUUID, clanPrefix)) {
                                 sendActionBar(player, "§7Du kannst deinen eigenen Clan nicht verlassen §8- §eTransferiere §7die Führung an ein §eMitglied §7oder §cLösche §7den Clan!");
                                 library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
                             } else {
@@ -162,7 +159,7 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                         String clanName = manager.getClanName(playerUUID);
 
                         if (currentClan != null && currentClan.equals(clanPrefix)) {
-                            if (manager.isOwnerOfClan(playerUUID)) {
+                            if (manager.isOwnerOfClan(playerUUID, clanPrefix)) {
                                 sendActionBar(player, "§7Du hast deinen Clan " + ChatColor.translateAlternateColorCodes('&', clanName != null ? clanName : "N/A") + " §7gelöscht");
                                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                                     p.sendMessage(" ");
@@ -171,8 +168,10 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                                 }
                                 library.playSoundForAll(CustomSound.WARNING, 1f, 2f);
                                 manager.deleteClan(clanPrefix);
-                            } else if ((player.hasPermission("survival.clans.delete")) && !manager.isOwnerOfClan(playerUUID)) {
+                            } else if ((player.hasPermission("survival.clans.delete")) && !manager.isOwnerOfClan(playerUUID, clanPrefix)) {
                                 sendActionBar(player, "§7Du hast deinen Clan " + ChatColor.translateAlternateColorCodes('&', clanName != null ? clanName : "N/A") + " §7gelöscht");
+                                manager.deleteClan(clanPrefix);
+                                library.playSoundForAll(CustomSound.WARNING, 1f, 2f);
                                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                                     p.sendMessage(" ");
                                     p.sendMessage(Main.getInstance().getPrefix() + "§7Der Clan " + ChatColor.translateAlternateColorCodes('&', clanName != null ? clanName : "N/A") + " §7wurde von einem §c§lTeammitglied aufgelöst!");
@@ -211,9 +210,9 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
         UUID playerUUID = player.getUniqueId();
 
         if (args.length == 1) {
-            if (!manager.isMemberOfClan(playerUUID)) {
+            if (!manager.isClanMember(playerUUID)) {
                 tab.add("create");
-            } else if (manager.isMemberOfClan(playerUUID)) {
+            } else if (manager.isClanMember(playerUUID)) {
                 tab.add("myclan");
                 tab.add("leave");
             }

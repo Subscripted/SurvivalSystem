@@ -3,6 +3,7 @@ package dev.subscripted.survivalsystem.modules.economy;
 import dev.subscripted.survivalsystem.modules.database.connections.Coins;
 import dev.subscripted.survivalsystem.modules.gui.BankUI;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,13 +14,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class BankCommand implements CommandExecutor {
 
     final Coins coins;
-
-    public BankCommand(Coins coins) {
-        this.coins = coins;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {

@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -130,6 +129,7 @@ public class ItemBuilder {
         }
         return this;
     }
+
 
     public ItemBuilder setOfflineSkullOwner(UUID playerUUID) {
         if (item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) {

@@ -4,6 +4,7 @@ import dev.subscripted.survivalsystem.Main;
 import dev.subscripted.survivalsystem.utils.CustomSound;
 import dev.subscripted.survivalsystem.utils.SoundLibrary;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -18,13 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
 
     final SoundLibrary library;
 
-    public GamemodeSwitcher(SoundLibrary library) {
-        this.library = library;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
@@ -42,22 +41,22 @@ public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
         if (player.hasPermission("survival.gamemode")) {
             String mode = args[0].toLowerCase();
             switch (mode) {
-                case "c":
+                case "c","1":
                     player.setGameMode(GameMode.CREATIVE);
                     player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eKreativ §7geändert");
                     library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
                     break;
-                case "s":
+                case "s","0":
                     player.setGameMode(GameMode.SURVIVAL);
                     player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eÜberleben §7geändert");
                     library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
                     break;
-                case "a":
+                case "a","4":
                     player.setGameMode(GameMode.ADVENTURE);
                     player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eAbenteuer §7geändert");
                     library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
                     break;
-                case "sp":
+                case "sp","3":
                     player.setGameMode(GameMode.SPECTATOR);
                     player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eBeobachter §7geändert");
                     library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
@@ -95,9 +94,13 @@ public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
         if (args.length == 1 && sender.hasPermission("survival.gamemode")) {
             List<String> completions = new ArrayList<>();
             completions.add("c");
+            completions.add("1");
             completions.add("s");
+            completions.add("0");
             completions.add("a");
+            completions.add("4");
             completions.add("sp");
+            completions.add("3");
             return completions;
         } else {
             return null;

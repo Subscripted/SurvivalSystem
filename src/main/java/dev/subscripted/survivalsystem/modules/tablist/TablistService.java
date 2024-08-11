@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
@@ -38,6 +39,10 @@ public class TablistService {
     public void setTabList(Player player) {
         String playername = player.getName();
         int onlineplayers = Bukkit.getOnlinePlayers().size();
+
+
+        String isInGamemode = isInAGamemode(player) ? "§c✕" : formatHealth(player);
+
         List<String> header = new ArrayList<>();
         header.add("§8✦§m" + "  ".repeat(40) + "§r§8✦");
         header.add(" ");
@@ -51,7 +56,7 @@ public class TablistService {
         List<String> footer = new ArrayList<>();
         footer.add("§8✦§m" + "  ".repeat(30) + "§r§8✦");
         footer.add(" ");
-        footer.add("§x§8§D§6§D§A§0§lR§x§8§D§6§D§A§0§la§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§lg: " + luckpermsService.getPlayerRang(player.getUniqueId()).replace("&", "§") + " §8│ §x§8§D§6§D§A§0§lP§x§8§D§6§D§A§0§li§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§lg: §a" + player.getPing() + " §8│ §x§8§D§6§D§A§0§lL§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§lb§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§ln: §a" + player.getHealth());
+        footer.add("§x§8§D§6§D§A§0§lR§x§8§D§6§D§A§0§la§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§lg: " + luckpermsService.getPlayerRang(player.getUniqueId()).replace("&", "§") + " §8│ §x§8§D§6§D§A§0§lP§x§8§D§6§D§A§0§li§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§lg: §a" + player.getPing() + " §8│ §x§8§D§6§D§A§0§lL§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§lb§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§ln: §a" + isInGamemode);
         footer.add("§x§8§D§6§D§A§0§lD§x§8§D§6§D§A§0§li§x§8§D§6§D§A§0§ls§x§8§D§6§D§A§0§lc§x§8§D§6§D§A§0§lo§x§8§D§6§D§A§0§lr§x§8§D§6§D§A§0§ld: §7/discord §8│ §x§8§D§6§D§A§0§lW§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§lb§x§8§D§6§D§A§0§ls§x§8§D§6§D§A§0§le§x§8§D§6§D§A§0§li§x§8§D§6§D§A§0§lt§x§8§D§6§D§A§0§le: §7Novibes.de");
         footer.add("§x§8§D§6§D§A§0§lT§x§8§D§6§D§A§0§lP§x§8§D§6§D§A§0§lS: " + getFormattedTPS() + " §8│ §x§8§D§6§D§A§0§lO§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§ll§x§8§D§6§D§A§0§li§x§8§D§6§D§A§0§ln§x§8§D§6§D§A§0§le: §a" + onlineplayers);
 
@@ -88,6 +93,11 @@ public class TablistService {
         }
     }
 
+    public String formatHealth(Player player){
+        DecimalFormat format = new DecimalFormat("##.#");
+        return format.format(player.getHealth());
+    }
+
     @SneakyThrows
     private double getTPS() {
         try {
@@ -117,7 +127,6 @@ public class TablistService {
         } else {
             color = "§4";
         }
-
         return color + formattedTPS;
     }
 
@@ -138,5 +147,9 @@ public class TablistService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         return TIME_FORMAT_WITH_SECONDS.format(calendar.getTime());
+    }
+
+    public boolean isInAGamemode(Player pl){
+        return pl.getGameMode().equals(GameMode.CREATIVE) || pl.getGameMode().equals(GameMode.SPECTATOR);
     }
 }

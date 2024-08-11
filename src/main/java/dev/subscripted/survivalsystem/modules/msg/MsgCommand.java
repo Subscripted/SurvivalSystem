@@ -41,7 +41,8 @@ public class MsgCommand implements CommandExecutor {
             return true;
         }
 
-        String message = Arrays.toString(args).replace(target.getName(), "");
+        // Concatenate the arguments into a single message string
+        String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         target.sendMessage(player.getName() + " -> you: " + message);
         player.sendMessage("You -> " + target.getName() + ": " + message);
 

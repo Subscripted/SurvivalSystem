@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReplyCommand implements CommandExecutor {
-     final Main plugin;
+    final Main plugin;
 
     public ReplyCommand(Main plugin) {
         this.plugin = plugin;
@@ -39,7 +39,8 @@ public class ReplyCommand implements CommandExecutor {
             return false;
         }
 
-        String message = Arrays.toString(args).replace(player.getName(), "");
+        // Concatenate the arguments into a single message string
+        String message = String.join(" ", args);
         lastMessaged.sendMessage(player.getName() + " -> you: " + message);
         player.sendMessage("You -> " + lastMessaged.getName() + ": " + message);
 

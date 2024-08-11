@@ -1,7 +1,6 @@
 package dev.subscripted.survivalsystem.utils;
 
 import lombok.Getter;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 
 @Getter
@@ -22,6 +21,15 @@ public enum CustomSound {
     WARNING(Sound.ENTITY_WITHER_AMBIENT),
     CLAN_OPEN(Sound.ITEM_GOAT_HORN_SOUND_7),
     PAGE_TURN(Sound.ITEM_BOOK_PAGE_TURN),
+    UPGRADING(Sound.UI_TOAST_CHALLENGE_COMPLETE),
+
+    BELL(Sound.BLOCK_BELL_USE),
+    BELL2(Sound.BLOCK_BELL_RESONATE),
+
+    MEMORY(Sound.BLOCK_PORTAL_TRIGGER),
+    MEMORY2(Sound.BLOCK_END_PORTAL_FRAME_FILL),
+    MEMORY3(Sound.BLOCK_END_PORTAL_SPAWN),
+
     DEATH(Sound.ENTITY_WITHER_DEATH);
 
     private final Sound sound;
