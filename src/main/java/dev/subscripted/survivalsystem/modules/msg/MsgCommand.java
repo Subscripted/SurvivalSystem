@@ -15,12 +15,9 @@ import java.util.Map;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MsgCommand implements CommandExecutor {
-    final Main plugin;
     final Map<Player, Player> lastMessaged = new HashMap<>();
+    final String prefix = "§x§C§5§C§3§7§5§lM§x§C§5§C§3§7§5§lS§x§C§5§C§3§7§5§lG §8▪ ";
 
-    public MsgCommand(Main plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -31,20 +28,19 @@ public class MsgCommand implements CommandExecutor {
 
         Player player = (Player) sender;
         if (args.length < 2) {
-            player.sendMessage("Usage: /msg <player> <message>");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Nutze: §e/msg <spieler> <nachricht>");
             return false;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage("Player not found or not online.");
+            player.sendMessage("§Der Spieler §e" + args[0] + " §7ist §cnicht §7online!");
             return true;
         }
 
-        // Concatenate the arguments into a single message string
         String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-        target.sendMessage(player.getName() + " -> you: " + message);
-        player.sendMessage("You -> " + target.getName() + ": " + message);
+        target.sendMessage(prefix + "§e" +  player.getName() + "§7 -> dir: §x§C§5§C§3§7§5" + message);
+        player.sendMessage(prefix + "§7Du -> §e" + target.getName() + "§7: §x§C§5§C§3§7§5" + message);
 
         lastMessaged.put(player, target);
         lastMessaged.put(target, player);

@@ -1,22 +1,27 @@
 package dev.subscripted.survivalsystem.modules.death;
 
+import dev.subscripted.survivalsystem.Main;
+import dev.subscripted.survivalsystem.modules.database.connections.Coins;
+import dev.subscripted.survivalsystem.utils.CoinFormatter;
 import dev.subscripted.survivalsystem.utils.CustomSound;
 import dev.subscripted.survivalsystem.utils.SoundLibrary;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.util.Random;
+import java.util.UUID;
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class PlayerDeathService implements Listener {
 
     final SoundLibrary library;
-
-    public PlayerDeathService(SoundLibrary library) {
-        this.library = library;
-    }
+    final Coins coins;
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
@@ -27,6 +32,9 @@ public class PlayerDeathService implements Listener {
         DeathReason reason = determineDeathReason(event);
         event.setDeathMessage(prefix + "§e" + player.getName() + " §c" + reason.getMessage());
         library.playSoundForAll(CustomSound.DEATH, 1f, 3f);
+
+        removeCoinsOnDeath(player);
+
     }
 
     private DeathReason determineDeathReason(PlayerDeathEvent event) {
@@ -61,4 +69,28 @@ public class PlayerDeathService implements Listener {
             return DeathReason.UNKNOWN;
         }
     }
+
+    public void removeCoinsOnDeath(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        long playerCoins = coins.getCoins(playerUUID);
+
+        if (playerCoins == 0) {
+            return;
+        }
+
+        long coinsToRemove = (playerCoins * 24) / 100;
+
+        long newCoinAmount = Math.max(playerCoins - coinsToRemove, 0);
+
+        coins.setCoins(playerUUID, (int) newCoinAmount);
+
+        // Ausgabe der Nachricht an den Spieler
+        player.sendMessage(" ");
+        player.sendMessage(" ");
+        player.sendMessage("§7Du bist §cgestorben §7und hast dadurch §e24% §7(§e" + CoinFormatter.formatCoins((int) coinsToRemove) + "€§7) §7 deines §eGeldes §cverloren! §7Dein §eKontostand §7beträgt nun §e" + CoinFormatter.formatCoins((int) newCoinAmount));
+        player.sendMessage(" ");
+        player.sendMessage(" ");
+    }
+
+
 }

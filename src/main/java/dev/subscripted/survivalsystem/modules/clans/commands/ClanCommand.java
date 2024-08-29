@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -36,8 +37,9 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
     final ClanMenus menus;
     final SoundLibrary library;
 
-    private static final Pattern VALID_CLAN_PREFIX_PATTERN = Pattern.compile("^[a-zA-Z&]*$");
-    private static final Pattern VALID_CLAN_NAME_PATTERN = Pattern.compile("^[a-zA-Z& ]*$");
+    static final Pattern VALID_CLAN_PREFIX_PATTERN = Pattern.compile("^[a-zA-Z&]*$");
+    static final Pattern VALID_CLAN_NAME_PATTERN = Pattern.compile("^[a-zA-Z& ]*$");
+    final String clanChatPrefix = "§x§C§5§C§3§7§5§lC§x§C§5§C§3§7§5§ll§x§C§5§C§3§7§5§la§x§C§5§C§3§7§5§ln§x§C§5§C§3§7§5§lc§x§C§5§C§3§7§5§lh§x§C§5§C§3§7§5§la§x§C§5§C§3§7§5§lt §8▪ ";
 
     @Override
     @SneakyThrows
@@ -52,18 +54,14 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
         Coins coins = Main.getInstance().getCoins();
         int buyprice = 50000;
 
-        if (args.length == 0) {
-            if (manager.isClanMember(playerUUID)) {
-                menus.openClanMenu(player);
-                library.playLibrarySound(player, CustomSound.CLAN_OPEN, 1f, 2f);
-                return true;
-            } else {
-                sendActionBar(player, "");
-            }
-            sendActionBar(player, "");
-        }else {
-            sendActionBar(player, "");
+
+        if (args.length <= 1 && !manager.isClanMember(playerUUID)) {
+            sendActionBar(player, "§7Du hast ungültige §cParameter §7angegeben.");
+        } else {
+            menus.openClanMenu(player);
+            library.playLibrarySound(player, CustomSound.CLAN_OPEN, 1f, 2f);
         }
+
 
         String subcommand = args[0].toLowerCase();
         try {
@@ -190,8 +188,28 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
                         library.playLibrarySound(player, CustomSound.WRONG_USAGE, 1f, 1f);
                     }
                     break;
+
+                case "chat":
+                    if (args.length >= 2) {
+                        if (manager.isClanMember(playerUUID)) {
+                            String clanPrefix = manager.getClanPrefix(playerUUID);
+                            if (manager.isMemberOfClan(playerUUID, clanPrefix)) {
+                                String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                                for (Player p : Bukkit.getOnlinePlayers()) {
+                                    if (manager.isMemberOfClan(p.getUniqueId(), clanPrefix)) {
+                                        p.sendMessage(clanChatPrefix + "§e" + sender.getName() + " §8» §x§C§5§C§3§7§5" + message);
+                                    }
+                                }
+                            }
+                        } else {
+                            sendActionBar(player, "§7Du bist in §ckeinen §7Clan!");
+                        }
+                    } else {
+                        sendActionBar(player, "§7Benutze §e/clan chat <message>");
+                    }
+                    break;
                 default:
-                    player.sendMessage("Usage: /clan create <prefix> <name> | /clan myclan | /clan leave <prefix> | /clan delete <prefix>");
+                    player.sendActionBar("§7Du hast ein §cUngültigen §eSyntax §7genutzt!");
             }
         } catch (SQLException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -215,6 +233,7 @@ public class ClanCommand implements CommandExecutor, TabCompleter {
             } else if (manager.isClanMember(playerUUID)) {
                 tab.add("myclan");
                 tab.add("leave");
+                tab.add("chat");
             }
             if (manager.isClanMember(playerUUID) || player.hasPermission("survival.clans.delete") || manager.isClanOwner(playerUUID)) {
                 tab.add("delete");

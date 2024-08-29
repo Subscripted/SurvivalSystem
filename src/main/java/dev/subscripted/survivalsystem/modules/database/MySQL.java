@@ -19,10 +19,10 @@ public class MySQL {
 
     static Connection connection;
 
-    String username = "root";
-    String password = "";
+    String username = "subscripted";
+    String password = "yj$EY8lvbHA";
     String database = "survival";
-    String host = "localhost";
+    String host = "5.253.246.115";
     String port = "3306";
 
     public CompletableFuture<Connection> getConnection() {
@@ -51,7 +51,7 @@ public class MySQL {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/survival?user=root&password=");
+            connection = DriverManager.getConnection("jdbc:mysql://5.253.246.115:3306/survival?user=subscripted&password=yj$EY8lvbHA");
             Bukkit.getServer().getLogger().severe("MySQL connection established!");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

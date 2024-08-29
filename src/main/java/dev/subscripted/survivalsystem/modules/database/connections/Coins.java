@@ -90,9 +90,14 @@ public class Coins {
     }
 
     public void removeCoins(UUID uuid, int amount) {
+        if (amount < 0) {
+            Bukkit.getServer().getLogger().severe("Attempted to remove a negative amount of coins: " + amount);
+            return;
+        }
         int currentCoins = getCoins(uuid);
         setCoins(uuid, Math.max(currentCoins - amount, 0));
     }
+
 
     @SneakyThrows
     public void depositToBank(UUID uuid, int amount) {

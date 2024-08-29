@@ -1,4 +1,5 @@
 dev\subscripted\survivalsystem\modules\death\PlayerDeathService$1.class
+dev\subscripted\survivalsystem\modules\give\GiveCommand.class
 dev\subscripted\survivalsystem\utils\DamageModifier.class
 dev\subscripted\survivalsystem\modules\clans\manager\ClanManager.class
 dev\subscripted\survivalsystem\utils\SoundLibrary.class
@@ -27,6 +28,7 @@ dev\subscripted\survivalsystem\modules\utilcommands\SeeInventory.class
 dev\subscripted\survivalsystem\modules\playertime\PlaytimeListener.class
 dev\subscripted\survivalsystem\modules\database\MySQL.class
 dev\subscripted\survivalsystem\modules\api\CooldownManager$Cooldown.class
+dev\subscripted\survivalsystem\Main.class
 dev\subscripted\survivalsystem\modules\death\DeathReason.class
 dev\subscripted\survivalsystem\modules\api\LuckpermsService.class
 dev\subscripted\survivalsystem\utils\ItemBuilder.class
