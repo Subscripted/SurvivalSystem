@@ -16,34 +16,40 @@ public class LuckpermsService {
 
     final LuckPerms api = LuckPermsProvider.get();
 
-
     public String getPlayerRang(UUID uuid) {
         User user = api.getUserManager().getUser(uuid);
-        if (user.equals(null)) {
+
+        if (user == null) {
             return "User not found";
         }
+
         ContextSet contexts = api.getContextManager().getContext(user).orElse(null);
+
         if (contexts == null) {
             return "No context";
         }
-        String prefix = user.getCachedData().getMetaData(QueryOptions.contextual(contexts)).getPrefix();
-        if (prefix == null) {
-            return "No Preifx";
-        }
-        return prefix;
 
+        String prefix = user.getCachedData().getMetaData(QueryOptions.contextual(contexts)).getPrefix();
+
+        if (prefix == null) {
+            return "No Prefix";
+        }
+
+        return prefix;
     }
 
     public void setDefaultGroup(Player player) {
-
         User user = api.getUserManager().getUser(player.getUniqueId());
-        user.setPrimaryGroup("default");
 
-        api.getUserManager().saveUser(user);
+        if (user != null) {
+            user.setPrimaryGroup("default");
+            api.getUserManager().saveUser(user);
+        }
     }
 
     public boolean hasDefaultGroup(Player player) {
         User user = api.getUserManager().getUser(player.getUniqueId());
-        return user.getPrimaryGroup().equals("default");
+
+        return user != null && "default".equals(user.getPrimaryGroup());
     }
 }
