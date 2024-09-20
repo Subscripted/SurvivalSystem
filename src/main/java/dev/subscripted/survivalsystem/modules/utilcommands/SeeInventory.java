@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 public class SeeInventory implements CommandExecutor {
 
     final SoundLibrary library;
+    private static final String COMMAND_USAGE_MSG = "§cUsage: /seeinventory <player>";
+    private static final String NOT_A_PLAYER_MSG = "You must be a player to use this command!";
+    private static final String NO_COMMAND_ACCESS_MSG = "§cDu hast keine Rechte auf diesen Command";
 
     public SeeInventory(SoundLibrary library) {
         this.library = library;
@@ -27,33 +30,31 @@ public class SeeInventory implements CommandExecutor {
             return false;
         }
 
-        Player player = (Player) sender;
-
-        if (args.length != 1) {
-            sender.sendMessage(Main.getInstance().getPrefix() + "§cUsage: /seeinventory <player>");
-            library.playLibrarySound(player, CustomSound.WRONG_USAGE, 1f, 1f);
-
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Main.getInstance().getPrefix() + NOT_A_PLAYER_MSG);
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Main.getInstance().getPrefix() + "You must be a player to use this command!");
+        Player player = (Player) sender;
+
+        if (args.length != 1) {
+            sender.sendMessage(Main.getInstance().getPrefix() + COMMAND_USAGE_MSG);
+            library.playLibrarySound(player, CustomSound.WRONG_USAGE, 1f, 1f);
             return true;
         }
 
         if (!player.hasPermission("survival.use") || !player.hasPermission("survival.all")) {
-            player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast keine Rechte auf diesen Command");
+            player.sendMessage(Main.getInstance().getPrefix() + NO_COMMAND_ACCESS_MSG);
             library.playLibrarySound(player, CustomSound.NO_PERMISSION, 1f, 1f);
             return true;
         }
 
         Player target = Bukkit.getPlayerExact(args[0]);
         if (target == null) {
-            player.sendMessage(Main.getInstance().getPrefix() + "§7Der Spieler §e" + target.getName() + " §7ist nicht online!");
+            player.sendMessage(Main.getInstance().getPrefix() + "§7Der Spieler §e" + args[0] + " §7ist nicht online!");
             library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
             return true;
         }
-
 
         player.closeInventory();
         player.openInventory(target.getInventory()).setTitle("§e" + target.getName() + ",s §7Inventar");

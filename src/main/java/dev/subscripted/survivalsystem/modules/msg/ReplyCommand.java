@@ -12,6 +12,10 @@ import java.util.Arrays;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReplyCommand implements CommandExecutor {
+    private static final String NOT_A_PLAYER_MSG = "Only players can use this command.";
+    private static final String NO_REPLY_PLAYER_MSG = "No one to reply to or the player is offline.";
+    private static final String USAGE_MSG = "Usage: /r <message>";
+
     final Main plugin;
 
     public ReplyCommand(Main plugin) {
@@ -21,7 +25,7 @@ public class ReplyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can use this command.");
+            sender.sendMessage(NOT_A_PLAYER_MSG);
             return true;
         }
 
@@ -30,16 +34,15 @@ public class ReplyCommand implements CommandExecutor {
         Player lastMessaged = msgCommand.getLastMessaged(player);
 
         if (lastMessaged == null || !lastMessaged.isOnline()) {
-            player.sendMessage("No one to reply to or the player is offline.");
+            player.sendMessage(NO_REPLY_PLAYER_MSG);
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage("Usage: /r <message>");
+            player.sendMessage(USAGE_MSG);
             return false;
         }
 
-        // Concatenate the arguments into a single message string
         String message = String.join(" ", args);
         lastMessaged.sendMessage(player.getName() + " -> you: " + message);
         player.sendMessage("You -> " + lastMessaged.getName() + ": " + message);

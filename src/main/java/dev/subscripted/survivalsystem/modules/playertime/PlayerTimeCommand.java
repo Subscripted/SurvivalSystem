@@ -18,12 +18,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PlayerTimeCommand implements CommandExecutor {
 
+    private static final String PLAYER_ONLY_COMMAND_MSG = "This command can only be executed by a player!";
+    private static final String SELF_PLAY_TIME_MSG = "§7Du spielst schon seit §e%s §7auf diesem §eServer§7!";
+    private static final String TARGET_PLAY_TIME_MSG = "§e%s §7spielt schon seit §e%s §7auf diesem §eServer§7!";
+    private static final String UNKNOWN_PLAY_TIME = "Unbekannt"; // Alternativ: "0h 0m"
+
     final PlaytimeManager playtimeManager;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("This command can only be executed by a player!");
+            sender.sendMessage(PLAYER_ONLY_COMMAND_MSG);
             return true;
         }
 
@@ -31,7 +36,7 @@ public class PlayerTimeCommand implements CommandExecutor {
         String PLAY_TIME = playtimeManager.getFormattedPlaytime(player.getUniqueId());
 
         if (args.length == 0) {
-            player.sendMessage(Main.getInstance().getPrefix() + "§7Du spielst schon seit §e" + PLAY_TIME + " §7auf diesem §eServer§7!");
+            player.sendMessage(Main.getInstance().getPrefix() + String.format(SELF_PLAY_TIME_MSG, PLAY_TIME));
             return true;
         }
 
@@ -39,19 +44,17 @@ public class PlayerTimeCommand implements CommandExecutor {
         UUID tUUID = UUIDFetcher.getUUID(t);
         Player target = Bukkit.getServer().getPlayer(tUUID);
 
-        // Hol die Spielzeit des Zielspielers, ob er online ist oder nicht
         String PLAY_TIME_OF_TARGET;
         if (target != null) {
             PLAY_TIME_OF_TARGET = playtimeManager.getFormattedPlaytime(target.getUniqueId());
         } else {
-            // Falls der Zielspieler offline ist, versuche, seine Spielzeit aus der Konfiguration zu laden
             PLAY_TIME_OF_TARGET = playtimeManager.getFormattedPlaytime(tUUID);
             if (PLAY_TIME_OF_TARGET == null || PLAY_TIME_OF_TARGET.equals("0h 0m")) {
-                PLAY_TIME_OF_TARGET = "Unbekannt"; // Alternativ: "0h 0m"
+                PLAY_TIME_OF_TARGET = UNKNOWN_PLAY_TIME;
             }
         }
 
-        player.sendMessage(Main.getInstance().getPrefix() + "§e" + t + " §7spielt schon seit §e" + PLAY_TIME_OF_TARGET + " §7auf diesem §eServer§7!");
+        player.sendMessage(Main.getInstance().getPrefix() + String.format(TARGET_PLAY_TIME_MSG, t, PLAY_TIME_OF_TARGET));
         return true;
     }
 }

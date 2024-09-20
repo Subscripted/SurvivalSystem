@@ -57,14 +57,14 @@ public class BankUIListener implements Listener {
         if (slot == DEPOSIT_SLOT) {
             if (clickedItem.getType() == Material.PLAYER_HEAD) {
                 player.closeInventory();
-                service.addToAddingMoney(player);
+                service.addToAddingMoney(player.getUniqueId());
                 player.sendMessage(Main.getInstance().getPrefix() + "§aBitte gib den Betrag ein, den du einzahlen möchtest:");
                 library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
             }
         } else if (slot == WITHDRAW_SLOT) {
             if (clickedItem.getType() == Material.PLAYER_HEAD) {
                 player.closeInventory();
-                service.addToRemovingMoney(player);
+                service.addToRemovingMoney(player.getUniqueId());
                 player.sendMessage(Main.getInstance().getPrefix() + "§cBitte gib den Betrag ein, den du abheben möchtest:");
                 library.playLibrarySound(player, CustomSound.QUESTION, 1f, 1f);
             }
@@ -77,9 +77,9 @@ public class BankUIListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (service.isAddingMoney(player)) {
+        if (service.isAddingMoney(player.getUniqueId())) {
             event.setCancelled(true);
-            service.removeFromAddingMoney(player);
+            service.removeFromAddingMoney(player.getUniqueId());
 
             try {
                 int amount = Integer.parseInt(message);
@@ -88,9 +88,9 @@ public class BankUIListener implements Listener {
                 player.sendMessage(Main.getInstance().getPrefix() + "§cUngültige Zahl, bitte versuche es erneut.");
                 library.playLibrarySound(player, CustomSound.NOT_ALLOWED, 1f, 1f);
             }
-        } else if (service.isRemovingMoney(player)) {
+        } else if (service.isRemovingMoney(player.getUniqueId())) {
             event.setCancelled(true);
-            service.removeFromRemovingMoney(player);
+            service.removeFromRemovingMoney(player.getUniqueId());
 
             try {
                 int amount = Integer.parseInt(message);

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BankPaymentSerivce {
@@ -16,29 +15,28 @@ public class BankPaymentSerivce {
     final Set<UUID> addingMoney = new HashSet<>();
     final Set<UUID> removingMoney = new HashSet<>();
 
-
-    public boolean isAddingMoney(Player player) {
-        return addingMoney.contains(player.getUniqueId());
+    public boolean isAddingMoney(UUID playerUUID) {
+        return addingMoney.contains(playerUUID);
     }
 
-    public boolean isRemovingMoney(Player player) {
-        return removingMoney.contains(player.getUniqueId());
+    public boolean isRemovingMoney(UUID playerUUID) {
+        return removingMoney.contains(playerUUID);
     }
 
-    public void addToAddingMoney(Player player) {
-        addingMoney.add(player.getUniqueId());
+    public void addToAddingMoney(UUID playerUUID) {
+        addingMoney.add(playerUUID);
     }
 
-    public void addToRemovingMoney(Player player) {
-        removingMoney.add(player.getUniqueId());
+    public void addToRemovingMoney(UUID playerUUID) {
+        removingMoney.add(playerUUID);
     }
 
-    public void removeFromAddingMoney(Player player) {
-        addingMoney.remove(player.getUniqueId());
+    public void removeFromAddingMoney(UUID playerUUID) {
+        addingMoney.remove(playerUUID);
     }
 
-    public void removeFromRemovingMoney(Player player) {
-        removingMoney.remove(player.getUniqueId());
+    public void removeFromRemovingMoney(UUID playerUUID) {
+        removingMoney.remove(playerUUID);
     }
 
 }

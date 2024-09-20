@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 
 public class SetSpawnCommand implements CommandExecutor {
 
+    private static final String SPAWN_SET_MSG = "Spawn location set!";
+    private static final String NOT_A_PLAYER_MSG = "This command can only be executed by a player";
+
     private final Main main;
 
     public SetSpawnCommand(Main main) {
@@ -17,25 +20,18 @@ public class SetSpawnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            
-            Location location = player.getLocation();
-            
-          main.getConfig().set("spawn.x", location.getX());
-            main.getConfig().set("spawn.y", location.getY());
-            main.getConfig().set("spawn.z", location.getZ());
-            
-            main.getConfig().set("spawn", location);
-            
-            main.saveConfig();
-            
-            player.sendMessage("Spawn location set!");
 
-        } else {
-            System.out.println("Bruh get yo ass on the server.");
+        if (!(sender instanceof Player)) {
+            System.out.println(NOT_A_PLAYER_MSG);
+            return true;
         }
+        Player player = (Player) sender;
+        Location location = player.getLocation();
+
+        main.getConfig().set("spawn", location);
+
+        main.saveConfig();
+        player.sendMessage(SPAWN_SET_MSG);
 
         return true;
     }

@@ -20,17 +20,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PlayerDeathService implements Listener {
 
+    final static String PREFIX = "§8» §8| §x§C§B§2§D§3§E§lT§x§D§D§3§A§3§C§lO§x§E§F§4§7§3§A§lD §8» ";
+
     final SoundLibrary library;
     final Coins coins;
+
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
 
-        String prefix = "§8» §8| §x§C§B§2§D§3§E§lT§x§D§D§3§A§3§C§lO§x§E§F§4§7§3§A§lD §8» ";
-
         Player player = event.getPlayer();
         DeathReason reason = determineDeathReason(event);
-        event.setDeathMessage(prefix + "§e" + player.getName() + " §c" + reason.getMessage());
+        event.setDeathMessage(PREFIX + "§e" + player.getName() + " §c" + reason.getMessage());
         library.playSoundForAll(CustomSound.DEATH, 1f, 3f);
 
         removeCoinsOnDeath(player);

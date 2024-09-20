@@ -15,6 +15,12 @@ public class PlaytimeManager {
     private File playtimeFile;
     private FileConfiguration playtimeConfig;
     private Map<UUID, Integer> playtimeMap;
+    private static final String PLAYTIME_FILE_NAME = "playtime.yml";
+    private static final String SAVE_ERROR_MSG = "Fehler beim Speichern der Spielzeit für %s: %s";
+    private static final String TIME_FORMAT = "%dh %dm";
+    private static final int SECONDS_IN_HOUR = 3600;
+    private static final int SECONDS_IN_MINUTE = 60;
+
 
     public PlaytimeManager(File dataFolder) {
         playtimeMap = new HashMap<>();
@@ -36,10 +42,9 @@ public class PlaytimeManager {
 
         try {
             savePlaytimeConfig();
-            // Entferne den Eintrag NICHT, um einen Reset zu vermeiden.
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Fehler beim Speichern der Spielzeit für " + player.getName() + ": " + e.getMessage());
+            System.err.println(String.format(SAVE_ERROR_MSG, player.getName(), e.getMessage()));
         }
     }
 
@@ -54,12 +59,12 @@ public class PlaytimeManager {
     }
 
     private void loadPlaytimeConfig(File dataFolder) {
-        playtimeFile = new File(dataFolder, "playtime.yml");
+        playtimeFile = new File(dataFolder, PLAYTIME_FILE_NAME);
 
         if (!playtimeFile.exists()) {
             try {
                 playtimeFile.getParentFile().mkdirs();
-                playtimeFile.createNewFile(); // Erstelle die Datei, wenn sie nicht existiert
+                playtimeFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,8 +78,8 @@ public class PlaytimeManager {
     }
 
     private String formatPlaytime(int seconds) {
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        return hours + "h " + minutes + "m";
+        int hours = seconds / SECONDS_IN_HOUR;
+        int minutes = (seconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE;
+        return String.format(TIME_FORMAT, hours, minutes);
     }
 }

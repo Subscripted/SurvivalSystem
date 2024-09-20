@@ -26,11 +26,10 @@ public class JoinQuit implements Listener {
     final ClanManager clanManager;
     final PlaytimeManager manager;
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    private void initializePlayer(Player player) {
         String playerName = player.getName();
         Main.getInstance().getCoins().setPlayerData(player.getUniqueId(), 0, 0);
+
         PlayerScoreboard scoreboard = new PlayerScoreboard(Main.getInstance().getLpservice(), clanManager, manager);
         scoreboard.setPlayerScoreboard(player);
         tablistService.setTabList(player);
@@ -43,14 +42,19 @@ public class JoinQuit implements Listener {
         if (!luckpermsService.hasDefaultGroup(player)) {
             luckpermsService.setDefaultGroup(player);
         }
-        event.setJoinMessage("§8[§a+§8] §7" + playerName);
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        initializePlayer(player);
+        event.setJoinMessage("§8[§a+§8] §7" + player.getName());
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        String playerName = player.getName();
         manager.savePlaytime(player);
-        event.setQuitMessage("§8[§c-§8] §7" + playerName);
+        event.setQuitMessage("§8[§c-§8] §7" + player.getName());
     }
 }

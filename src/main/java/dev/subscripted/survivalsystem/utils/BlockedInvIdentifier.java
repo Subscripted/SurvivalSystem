@@ -20,6 +20,6 @@ public class BlockedInvIdentifier implements InventoryHolder {
 
     @Override
     public Inventory getInventory() {
-        return null;
+        throw new UnsupportedOperationException("Inventory is not supported for BlockedInvIdentifier.");
     }
 }
