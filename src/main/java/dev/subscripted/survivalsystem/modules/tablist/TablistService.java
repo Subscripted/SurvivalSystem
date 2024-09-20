@@ -26,15 +26,18 @@ public class TablistService {
     final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm 'Uhr'");
     final SimpleDateFormat TIME_FORMAT_WITH_SECONDS = new SimpleDateFormat("HH:mm:ss 'Uhr'");
     final ClanManager clanManager;
+    private static final String TIME_ZONE = "UTC";
 
     public TablistService(Main plugin, ClanManager clanManager) {
         this.plugin = plugin;
         this.clanManager = clanManager;
         this.luckpermsService = new LuckpermsService();
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-        TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
+        TIME_FORMAT.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
+        TIME_FORMAT_WITH_SECONDS.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
         startTabListUpdater();
     }
+
 
     public void setTabList(Player player) {
         String playername = player.getName();

@@ -9,6 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Events implements Listener {
+
     private final CooldownManager cooldownManager;
 
     public Events(CooldownManager cooldownManager) {
@@ -20,6 +21,7 @@ public class Events implements Listener {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player attacker = (Player) event.getDamager();
             Player victim = (Player) event.getEntity();
+
             cooldownManager.startCooldown(attacker);
             cooldownManager.startCooldown(victim);
         }
@@ -28,12 +30,14 @@ public class Events implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
+
         cooldownManager.handlePlayerDeath(player);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
         cooldownManager.handlePlayerQuit(player);
     }
 }

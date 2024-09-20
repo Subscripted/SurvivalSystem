@@ -21,29 +21,21 @@ public class VanishService {
     public void setVanished(Player player) {
         teamlerInVanish.add(player.getUniqueId());
         player.setInvisible(true);
+        updateVisibility(player, true);
     }
 
     public void removeFromVanish(Player player) {
         teamlerInVanish.remove(player.getUniqueId());
         player.setInvisible(false);
+        updateVisibility(player, false);
     }
 
-    private void updateVisibility(Player player) {
+    private void updateVisibility(Player player, boolean vanished) {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (isVanished(player)) {
-                if (!isVanished(onlinePlayer)) {
-                    onlinePlayer.hidePlayer(player);
-                } else {
-                    onlinePlayer.showPlayer(player);
-                }
+            if (vanished) {
+                onlinePlayer.hidePlayer(player);
             } else {
                 onlinePlayer.showPlayer(player);
-            }
-
-            if (isVanished(onlinePlayer)) {
-                player.showPlayer(onlinePlayer);
-            } else {
-                player.hidePlayer(onlinePlayer);
             }
         }
     }

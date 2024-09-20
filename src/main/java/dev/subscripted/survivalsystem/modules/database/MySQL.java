@@ -43,7 +43,6 @@ public class MySQL {
         }
     }
 
-    @SneakyThrows
     private void connect() {
         if (isConnected()) {
             return;
@@ -58,10 +57,13 @@ public class MySQL {
         }
     }
 
-    @SneakyThrows
     public void close() {
         if (isConnected()) {
-            connection.close();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

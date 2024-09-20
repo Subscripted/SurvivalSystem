@@ -22,19 +22,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
 
+    static final String PLAYER_ONLY_MESSAGE = "This command can only be executed by a player";
+    static final String PERMISSION_ERROR_MESSAGE = "§cDu hast keine Rechte auf diesen Command";
+    static final String MODES_AVAILABLE_MESSAGE = "§7Du hast diese Spielmodi zur Auswahl: §ec, s, a, sp";
+
     final SoundLibrary library;
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("This command can only be executed by a player");
+            sender.sendMessage(PLAYER_ONLY_MESSAGE);
             return true;
         }
         Player player = (Player) sender;
 
         if (args.length != 1) {
-            player.sendMessage(Main.getInstance().getPrefix() + "§7Du hast diese Spielmodi zur Auswahl: §ec, s, a, sp");
+            player.sendMessage(Main.getInstance().getPrefix() + MODES_AVAILABLE_MESSAGE);
             library.playLibrarySound(player, CustomSound.WRONG_USAGE, 1f, 1f);
             return false;
         }
@@ -42,24 +46,16 @@ public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
             String mode = args[0].toLowerCase();
             switch (mode) {
                 case "c","1":
-                    player.setGameMode(GameMode.CREATIVE);
-                    player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eKreativ §7geändert");
-                    library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
+                    setNewMode(player, GameMode.CREATIVE, "§7Gamemode zu §eKreativ §7geändert");
                     break;
                 case "s","0":
-                    player.setGameMode(GameMode.SURVIVAL);
-                    player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eÜberleben §7geändert");
-                    library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
+                    setNewMode(player, GameMode.SURVIVAL, "§7Gamemode zu §eÜberleben §7geändert");
                     break;
                 case "a","4":
-                    player.setGameMode(GameMode.ADVENTURE);
-                    player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eAbenteuer §7geändert");
-                    library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
+                    setNewMode(player, GameMode.ADVENTURE, "§7Gamemode zu §eAbenteuer §7geändert");
                     break;
                 case "sp","3":
-                    player.setGameMode(GameMode.SPECTATOR);
-                    player.sendMessage(Main.getInstance().getPrefix() + "§7Gamemode zu §eBeobachter §7geändert");
-                    library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
+                    setNewMode(player, GameMode.SPECTATOR, "§7Gamemode zu §eBeobachter §7geändert");
                     break;
                 default:
                     player.sendMessage(Main.getInstance().getPrefix() + "§ec, s, a, sp");
@@ -67,11 +63,18 @@ public class GamemodeSwitcher implements CommandExecutor, TabCompleter {
                     return false;
             }
         }else {
-            player.sendMessage(Main.getInstance().getPrefix() + "§cDu hast keine Rechte auf diesen Command");
+            player.sendMessage(Main.getInstance().getPrefix() + PERMISSION_ERROR_MESSAGE);
             library.playLibrarySound(player, CustomSound.NO_PERMISSION, 1f, 1f);
         }
         return true;
     }
+
+    private void setNewMode(Player player, GameMode mode, String message){
+        player.setGameMode(mode);
+        player.sendMessage(Main.getInstance().getPrefix() + message);
+        library.playLibrarySound(player, CustomSound.SUCCESSFULL, 1f, 2f);
+    }
+
 
     private boolean isInCreativeMode(@NotNull Player player) {
         return player.getGameMode().equals(GameMode.CREATIVE);

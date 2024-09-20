@@ -22,14 +22,12 @@ public class BankCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a Player to perform this command!");
-            return true;
+            sender.sendMessage("This command can be performed only by players in the context of a bank operation!");
+            return false;
         }
         Player player = (Player) sender;
-        UUID playerUID = player.getUniqueId();
-        int playerCoins = coins.getCoins(playerUID);
         BankUI.bankingGUI(player);
 
-        return false;
+        return true;
     }
 }

@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 public class EnderChestCommand implements CommandExecutor {
 
     final SoundLibrary library;
+    private static final String NOT_A_PLAYER_MSG = "You must be a player to use this command!";
+    private static final String NO_COMMAND_ACCESS_MSG = "§cDu hast auf diesen Command keine Rechte!";
 
     public EnderChestCommand(SoundLibrary library) {
         this.library = library;
@@ -23,19 +25,19 @@ public class EnderChestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a player to use this command!");
+            sender.sendMessage(NOT_A_PLAYER_MSG);
             return true;
         }
 
         Player player = (Player) sender;
 
         if (!player.hasPermission("survival.ec")) {
-            sender.sendMessage(Main.getInstance().getPrefix() + "§cDu hast auf diesen Command keine Rechte!");
+            sender.sendMessage(Main.getInstance().getPrefix() + NO_COMMAND_ACCESS_MSG);
             return true;
         }
 
         player.openInventory(player.getEnderChest());
         library.playLibrarySound(player, CustomSound.GUI_OPEN, 1f, 3f);
-        return false;
+        return true;
     }
 }

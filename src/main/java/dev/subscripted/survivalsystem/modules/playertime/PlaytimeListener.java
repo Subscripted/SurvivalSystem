@@ -13,6 +13,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlaytimeListener implements Listener {
 
+    private static final long DELAY = 20L;
+    private static final long PERIOD = 20L;
+
     final PlaytimeManager playtimeManager;
 
     public PlaytimeListener(Main plugin, PlaytimeManager playtimeManager) {
@@ -26,7 +29,6 @@ public class PlaytimeListener implements Listener {
                     playtimeManager.incrementPlaytime(player);
                 }
             }
-        }.runTaskTimer(plugin, 20L, 20L);
+        }.runTaskTimer(plugin, DELAY, PERIOD);
     }
 }
-

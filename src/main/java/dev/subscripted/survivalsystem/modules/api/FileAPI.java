@@ -3,6 +3,7 @@ package dev.subscripted.survivalsystem.modules.api;
 import dev.subscripted.survivalsystem.Main;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,69 +12,65 @@ import java.util.Set;
 
 public class FileAPI {
 
-    private final File f;
-    private final YamlConfiguration c;
+    private final File file;
+    private final YamlConfiguration configuration;
 
     public FileAPI(String fileName) {
-        f = new File(Main.getInstance().getDataFolder(), fileName);
-        c = YamlConfiguration.loadConfiguration(f);
+        this.file = new File(Main.getInstance().getDataFolder(), fileName);
+        this.configuration = YamlConfiguration.loadConfiguration(this.file);
     }
 
     public FileAPI setValue(String path, Object value) {
-        c.set(path, value);
+        this.configuration.set(path, value);
         return this;
     }
 
-    public boolean valueExist(String path) {
-        return (getObject(path) != null);
+    public boolean doesValueExist(String path) {
+        return (this.getObject(path) != null);
     }
 
     public Object getObject(String path) {
-        return c.get(path);
+        return this.configuration.get(path);
     }
 
-    public int getInt(String path) {
-        return c.getInt(path);
+    public int getInt(@NotNull String path) {
+        return this.configuration.getInt(path);
     }
 
-
-    public long getLong(String path) {
-        return c.getLong(path);
+    public long getLong(@NotNull String path) {
+        return this.configuration.getLong(path);
     }
 
-    public String getString(String path) {
-        return c.getString(path);
+    public String getString(@NotNull String path) {
+        return this.configuration.getString(path);
     }
 
-    public boolean getBoolean(String path) {
-        return c.getBoolean(path);
+    public boolean getBoolean(@NotNull String path) {
+        return this.configuration.getBoolean(path);
     }
 
-    public List<String> getStringList(String path) {
-        return c.getStringList(path);
+    public List<String> getStringList(@NotNull String path) {
+        return this.configuration.getStringList(path);
     }
 
     public Set<String> getKeys(boolean deep) {
-        return c.getKeys(deep);
+        return this.configuration.getKeys(deep);
     }
 
-    public ConfigurationSection getConfigSection(String section) {
-        return c.getConfigurationSection(section);
+    public ConfigurationSection getConfigurationSection(@NotNull String section) {
+        return this.configuration.getConfigurationSection(section);
     }
 
-    public ConfigurationSection getSection(String path) {
-        return c.getConfigurationSection(path);
+    public ConfigurationSection getSection(@NotNull String path) {
+        return this.configuration.getConfigurationSection(path);
     }
-
 
     public FileAPI save() {
         try {
-            c.save(f);
+            this.configuration.save(this.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return this;
     }
-
 }

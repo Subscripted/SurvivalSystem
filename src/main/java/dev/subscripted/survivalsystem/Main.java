@@ -44,36 +44,24 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
-    @Getter
     private TablistService tablistService;
-    @Getter
     private LuckpermsService lpservice;
-    @Getter
     private FlyService flyService;
-    @Getter
     private MySQL mySQL;
-    @Getter
     private Coins coins;
-    @Getter
     private SoundLibrary library;
-    @Getter
     private BankPaymentSerivce bankPaymentService;
-    @Getter
     private String prefix = "§8» §8| §x§B§F§A§3§B§A§lN§x§B§0§9§3§B§2§lo§x§A§1§8§3§A§B§lv§x§9§2§7§3§A§3§li§x§8§3§6§2§9§B§lb§x§7§4§5§2§9§4§le§x§6§5§4§2§8§C§ls §8» §r";
-    @Getter
     private VanishService vanishService;
-    @Getter
     private CooldownManager cooldownManager;
-    @Getter
     private ClanManager clanManager;
-    @Getter
-    PlayerScoreboard playerScoreboard;
-    @Getter
-    PlaytimeManager playtimeManager;
+    private PlayerScoreboard playerScoreboard;
+    private PlaytimeManager playtimeManager;
 
     @Override
     public void onEnable() {
@@ -184,7 +172,7 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         for (Player p : getServer().getOnlinePlayers()) {
             try {
-                playtimeManager.savePlaytime(p); // Speichere die Spielzeit
+                playtimeManager.savePlaytime(p);
             } catch (Exception e) {
                 getLogger().severe("Fehler beim Speichern der Spielzeit für " + p.getName() + ": " + e.getMessage());
             }
@@ -195,7 +183,7 @@ public final class Main extends JavaPlugin {
                         "§7Webseite: §eNovibes.de §8| §eNovibes Netzwerk");
             }
         }
-        mySQL.close(); // Schließe die Datenbankverbindung
+        mySQL.close();
     }
 }
 

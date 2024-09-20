@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class CooldownManager {
+
     private final JavaPlugin plugin;
     private final HashMap<UUID, Cooldown> cooldowns;
 
@@ -18,20 +19,19 @@ public class CooldownManager {
 
     public void startCooldown(Player player) {
         UUID playerId = player.getUniqueId();
-        if (cooldowns.containsKey(playerId)) {
-            return;
+
+        if (!cooldowns.containsKey(playerId)) {
+            Cooldown cooldown = new Cooldown(player);
+            cooldowns.put(playerId, cooldown);
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cooldowns.remove(playerId);
+                    player.sendMessage("Your PvP cooldown period has ended!");
+                }
+            }.runTaskLater(plugin, 200L);
         }
-
-        Cooldown cooldown = new Cooldown(player);
-        cooldowns.put(playerId, cooldown);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                cooldowns.remove(playerId);
-                player.sendMessage("Your PvP cooldown period has ended!");
-            }
-        }.runTaskLater(plugin, 200L); // 200L = 10 seconds (20 ticks per second)
     }
 
     public boolean isInCooldown(Player player) {
@@ -44,6 +44,7 @@ public class CooldownManager {
 
     public void handlePlayerDeath(Player player) {
         UUID playerId = player.getUniqueId();
+
         if (cooldowns.containsKey(playerId)) {
             cooldowns.get(playerId).setDied(true);
         }
@@ -51,9 +52,11 @@ public class CooldownManager {
 
     public void handlePlayerQuit(Player player) {
         UUID playerId = player.getUniqueId();
+
         if (cooldowns.containsKey(playerId) && !cooldowns.get(playerId).hasDied()) {
-            player.setHealth(0.0); // Kill the player
+            player.setHealth(0.0);
         }
+
         cooldowns.remove(playerId);
     }
 
